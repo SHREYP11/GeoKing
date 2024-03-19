@@ -41,18 +41,28 @@ public class GeoKingApplication {
 class LoginScreen extends JPanel {
 
     public LoginScreen() {
-        setLayout(new BorderLayout());
+        setLayout(new BorderLayout(0, 50)); // Add some vertical spacing
 
         // Create the top panel that contains the title.
         JPanel titlePanel = new JPanel();
         titlePanel.add(new JLabel("GEOKING"));
 
+        // Create a container panel that will help center the login fields
+        JPanel containerPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
         // Create the middle panel that contains the username field.
-        JPanel loginPanel = new JPanel();
-        loginPanel.setLayout(new GridLayout(2, 2));
+        JPanel loginPanel = new JPanel(new FlowLayout());
         loginPanel.add(new JLabel("USERNAME:"));
-        JTextField usernameField = new JTextField(15);
+
+        JTextField usernameField = new JTextField();
+        // Make the username field a little bigger
+        usernameField.setPreferredSize(new Dimension(300, 40)); // Adjusted size
         loginPanel.add(usernameField);
+
+        containerPanel.add(loginPanel, gbc); // Add loginPanel to the centering container
 
         // Create the bottom panel that contains the "Enter" button.
         JPanel buttonPanel = new JPanel();
@@ -61,7 +71,7 @@ class LoginScreen extends JPanel {
 
         // Add panels to the frame.
         add(titlePanel, BorderLayout.NORTH);
-        add(loginPanel, BorderLayout.CENTER);
+        add(containerPanel, BorderLayout.CENTER); // Add the container to center loginPanel
         add(buttonPanel, BorderLayout.SOUTH);
 
         // Add action listener to the button.
@@ -76,6 +86,10 @@ class LoginScreen extends JPanel {
         // Unused in this example but can be useful for future expansion
     }
 }
+
+
+
+
 
 // The MainMenuScreen class that creates the main menu JPanel.
 class MainMenuScreen extends JPanel {
@@ -133,6 +147,7 @@ class MainMenuScreen extends JPanel {
         // Unused in this example but can be useful for future expansion
     }
 
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -141,4 +156,6 @@ class MainMenuScreen extends JPanel {
             g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
         }
     }
+
+
 }

@@ -3,6 +3,13 @@ import java.awt.*;
 
 public class ClassicModeScreen extends JPanel {
     public ClassicModeScreen() {
+        levelDatabase levels = new levelDatabase();
+        // this is the level selection code
+        user currentUser = LoginScreen.getCurrentUser();
+        int classicLevel = currentUser.getClassicLevel();
+        country Country = levels.selectLevel(classicLevel);
+        String countyName = Country.getName();
+
         setLayout(new BorderLayout());
 
         JPanel topPanel = new JPanel(new BorderLayout());
@@ -14,7 +21,7 @@ public class ClassicModeScreen extends JPanel {
         JButton hintButton = new JButton("Hint");
         hintButton.setPreferredSize(new Dimension(80, 30));
         hintButton.addActionListener(event -> {
-            JOptionPane.showMessageDialog(this, "This is a hint.");
+            JOptionPane.showMessageDialog(this, "This country is in " + Country.getContinent() + ".");
         });
         JPanel hintPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         hintPanel.setOpaque(false);
@@ -24,7 +31,7 @@ public class ClassicModeScreen extends JPanel {
         add(topPanel, BorderLayout.NORTH);
 
         JPanel centerPanel = new JPanel(new BorderLayout());
-        ImageIcon imageIcon = new ImageIcon("src/Resources/Flags/Flag_of_Australia-512x256.png");
+        ImageIcon imageIcon = new ImageIcon("src/Resources/Countries/" + countyName.toLowerCase() + "-silhouette.png");
         JLabel imageLabel = new JLabel(imageIcon);
         imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
         centerPanel.add(imageLabel, BorderLayout.CENTER);

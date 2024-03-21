@@ -1,10 +1,13 @@
 import javax.swing.*;
 import java.awt.*;
 
+
+
 class LoginScreen extends JPanel {
+
+    public static user currentUser;
     public LoginScreen() {
         setLayout(new BorderLayout(0, 50));
-
         JPanel titlePanel = new JPanel();
         titlePanel.add(new JLabel("GEOKING"));
 
@@ -32,8 +35,27 @@ class LoginScreen extends JPanel {
 
         enterButton.addActionListener(e -> {
             CardLayout cardLayout = (CardLayout) getParent().getLayout();
+            // this is the code to grab the user from database
+            userDatabase userData = new userDatabase();
+            String usernameInputed = usernameField.getText();
+            currentUser = userData.findUser(usernameInputed);
+            if (currentUser ==null) {
+                userData.createUser(usernameInputed);
+                userData.exportDatabase();
+                currentUser = userData.findUser(usernameInputed);
+            }
             cardLayout.show(getParent(), "MAIN_MENU");
         });
+    }
+
+    // Static method to set the current user
+    public static void setCurrentUser(user user) {
+        currentUser = user;
+    }
+
+    // Static method to get the current user
+    public static user getCurrentUser() {
+        return currentUser;
     }
 
     public void setCardLayout(CardLayout cardLayout, JPanel cardPanel) {

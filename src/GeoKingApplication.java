@@ -25,9 +25,14 @@ public class GeoKingApplication {
         cardPanel.add(loginScreen, "LOGIN");
 
         // Add main menu screen to the card panel
-        MainMenuScreen mainMenuScreen = new MainMenuScreen();
+
+        MainMenuScreen mainMenuScreen = new MainMenuScreen(cardLayout, cardPanel);
+
         mainMenuScreen.setCardLayout(cardLayout, cardPanel);
         cardPanel.add(mainMenuScreen, "MAIN_MENU");
+
+        SettingsScreen settingsScreen = new SettingsScreen(cardLayout, cardPanel);
+        cardPanel.add(settingsScreen, "SETTINGS");
 
         // Show login screen initially
         cardLayout.show(cardPanel, "LOGIN");
@@ -90,8 +95,14 @@ class LoginScreen extends JPanel {
 // The MainMenuScreen class that creates the main menu JPanel.
 class MainMenuScreen extends JPanel {
     private Image backgroundImage;
+    private CardLayout cardLayout; // Add this line
+    private JPanel cardPanel; // Add this line
 
-    public MainMenuScreen() {
+
+    public MainMenuScreen(CardLayout cardLayout, JPanel cardPanel) {
+        this.cardLayout = cardLayout; // Assign the passed CardLayout to the field
+        this.cardPanel = cardPanel;   // Assign the passed JPanel to the field
+
         setLayout(new BorderLayout());
 
         // Load your background image
@@ -146,6 +157,8 @@ class MainMenuScreen extends JPanel {
             revalidate();
             repaint();
         });
+
+        settingsButton.addActionListener(e -> this.cardLayout.show(this.cardPanel, "SETTINGS"));
     }
 
     public void setCardLayout(CardLayout cardLayout, JPanel cardPanel) {
@@ -216,5 +229,26 @@ class MainMenuScreen extends JPanel {
             add(enterGuessButton, BorderLayout.SOUTH);
         }
 
+    }
+}
+
+class SettingsScreen extends JPanel {
+    public SettingsScreen(CardLayout cardLayout, JPanel cardPanel) {
+        setLayout(new BorderLayout());
+
+        // Header label for settings
+        JLabel settingsHeader = new JLabel("SETTINGS", SwingConstants.CENTER);
+        settingsHeader.setFont(new Font("Arial", Font.BOLD, 24));
+        add(settingsHeader, BorderLayout.NORTH);
+
+        // Panel for the Back button
+        JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JButton backButton = new JButton("Back");
+        backButton.addActionListener(e -> cardLayout.show(cardPanel, "MAIN_MENU"));
+        backButtonPanel.add(backButton);
+
+        // Add the back button panel to the SOUTH region of the BorderLayout
+        // This positions it at the bottom left of the panel
+        add(backButtonPanel, BorderLayout.SOUTH);
     }
 }

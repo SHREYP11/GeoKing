@@ -41,10 +41,16 @@ public class levelDatabase {
         return leveloptions.get(randomInt);
     }
 
+    public country adminSelect(int level, int choice){
+        return (levels.get(level-1)).get(choice-1);
+    }
+
     public static void main(String[] args) {
         levelDatabase test = new levelDatabase();
         country tester = test.selectLevel(1);
         country tester2 = test.selectLevel(2);
         System.out.println("These are working");
+        country test3 = test.adminSelect(1,2);
+        System.out.println(test3);
     }
 }

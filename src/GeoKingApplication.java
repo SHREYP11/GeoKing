@@ -174,7 +174,7 @@ class MainMenuScreen extends JPanel {
             g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
         }
     }
-
+}
     class ClassicModeScreen extends JPanel {
         public ClassicModeScreen() {
             setLayout(new BorderLayout());
@@ -229,7 +229,6 @@ class MainMenuScreen extends JPanel {
             add(enterGuessButton, BorderLayout.SOUTH);
         }
 
-    }
 }
 
 class SettingsScreen extends JPanel {

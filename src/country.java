@@ -40,4 +40,3 @@ public class country {
         return continent;
     }
 }
-

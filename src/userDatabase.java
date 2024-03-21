@@ -2,9 +2,24 @@ import java.io.*;
 import java.util.ArrayList; // import the ArrayList class
 import java.util.Objects;
 
+/**
+ * Class that represents the user data base.
+ * Stores all users in the game.
+ *
+ * @author Colin Lynch, Vladyslav Oleksandrovych Koval
+ * @version 1.0
+ */
 public class userDatabase {
-    private ArrayList<user> users = new ArrayList<user>(); // Create an ArrayList object
-    public userDatabase(){
+    /**
+     * The ArrayList that holds all users in the game. New ArrayList object that
+     * holds user objects.
+     */
+    private ArrayList<user> users = new ArrayList<user>();
+
+    /**
+     * userDatabase Constructor. Creates a new userDatabase object.
+     */
+    public userDatabase() {
         try (BufferedReader br = new BufferedReader(new FileReader("userfile.csv"))) {
             String line;
             br.readLine();
@@ -15,39 +30,55 @@ public class userDatabase {
                 int classicLevel = Integer.parseInt(values[1].trim());
                 int frenzyLevel = Integer.parseInt(values[2].trim());
                 boolean admin = Boolean.parseBoolean(values[3].trim());
-                user tempUser = new user(name,classicLevel,frenzyLevel,admin);
+                user tempUser = new user(name, classicLevel, frenzyLevel, admin);
                 users.add(tempUser);
 
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
 
         }
 
     }
-    public void createUser(String name){
-        user tempUser = new user(name,1,1,false);
+
+    /**
+     * Method that creates user and adds it to userDatabase.
+     *
+     * @param name the name of the user
+     */
+    public void createUser(String name) {
+        user tempUser = new user(name, 1, 1, false);
         users.add(tempUser);
     }
 
-    public user findUser(String name){
-        for (user temp: users){
-            if (Objects.equals(temp.getName(), name)){
+    /**
+     * Method that finds user object in userDatabase.
+     *
+     * @param name the name of the user
+     * @return the user object if the user object was found in the database, returns
+     *         null if not found
+     */
+    public user findUser(String name) {
+        for (user temp : users) {
+            if (Objects.equals(temp.getName(), name)) {
                 return temp;
             }
         }
         return null;
     }
 
-    public void exportDatabase(){
+    /**
+     * Method that exports the userDatabase to csv file.
+     */
+    public void exportDatabase() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("userfile.csv"))) {
             // Writing header
             writer.write("Name,Classic Level,Frenzy Level,Admin");
 
             // Writing data
-            for (user temp: users) {
-                writer.write("\n"+ temp.getName() + "," + temp.getClassicLevel()+ "," + temp.getFrenzyLevel()+ "," + temp.getAdmin());
+            for (user temp : users) {
+                writer.write("\n" + temp.getName() + "," + temp.getClassicLevel() + "," + temp.getFrenzyLevel() + ","
+                        + temp.getAdmin());
 
             }
         } catch (IOException e) {
@@ -55,13 +86,4 @@ public class userDatabase {
         }
     }
 
-
-
-    public static void main(String[] args) {
-        userDatabase user = new userDatabase();
-        //group39.user.createUser("John");
-        System.out.println("Test");
-        System.out.println(user.findUser("Colin"));
-        user.exportDatabase();
-    }
 }

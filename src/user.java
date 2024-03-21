@@ -1,33 +1,82 @@
+/**
+ * Class that represents User Objects
+ *
+ * @author Colin Lynch
+ * @version 1.0
+ */
+
 public class user {
+    /** The User name */
     private String name;
+    /** The level number for classic gamemode */
     private int classicLevel;
+    /** The level number for frenzy gamemode */
     private int frenzyLevel;
+    /** Boolean to see if User has admin priviledges */
     private boolean admin;
 
-
-    public user(String inputName, int classicLevel, int frenzyLevel, boolean admin){
+    /**
+     * User Constructor. Creates a new User Object
+     *
+     * @param inputName    the name of the user
+     * @param classicLevel the level number for classic gamemode
+     * @param frenzyLevel  the level number for frenzy gamemode
+     * @param admin        boolean to see if user has admin priviledges
+     */
+    public user(String inputName, int classicLevel, int frenzyLevel, boolean admin) {
         this.name = inputName;
         this.classicLevel = classicLevel;
         this.frenzyLevel = frenzyLevel;
         this.admin = admin;
     }
 
-    public void incrementClassicLevel(){
+    /**
+     * Classiclevel incrementer, increment level number by 1
+     */
+    public void incrementClassicLevel() {
         classicLevel++;
     }
-    public void incrementFrenzyLevel(){
+
+    /**
+     * Frenzylevel incrementer, increment frenzy level number by 1
+     */
+    public void incrementFrenzyLevel() {
         frenzyLevel++;
     }
-    public String getName(){
+
+    /**
+     * Getter method for name. Gets name for User Object.
+     *
+     * @return the user name
+     */
+    public String getName() {
         return name;
     }
-    public int getClassicLevel(){
+
+    /**
+     * Getter Method for classicLevel. Gets classicLevel for User Object.
+     *
+     * @return the level number for classicLevel
+     */
+    public int getClassicLevel() {
         return classicLevel;
     }
-    public int getFrenzyLevel(){
+
+    /**
+     * Getter Method for frenzyLevel. Gets frenzyLevel for User Object.
+     *
+     * @return the level number for frenzyLevel
+     */
+    public int getFrenzyLevel() {
         return frenzyLevel;
     }
-    public boolean getAdmin(){
+
+    /**
+     * Getter Method for admin. Gets admin for User Object
+     *
+     * @return the boolean that verifies if user has admin priviledges
+     */
+    public boolean getAdmin() {
         return admin;
     }
 }

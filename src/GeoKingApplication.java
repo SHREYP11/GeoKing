@@ -141,6 +141,15 @@ class MainMenuScreen extends JPanel {
         buttonPanel.add(Box.createVerticalGlue());
 
         add(buttonPanel, BorderLayout.CENTER);
+
+        classicModeButton.addActionListener(e -> {
+            // Remove all components
+            removeAll();
+            // Instantiate and add ClassicModeScreen
+            add(new ClassicModeScreen(), BorderLayout.CENTER);
+            revalidate();
+            repaint();
+        });
     }
 
     public void setCardLayout(CardLayout cardLayout, JPanel cardPanel) {
@@ -157,5 +166,53 @@ class MainMenuScreen extends JPanel {
         }
     }
 
+    class ClassicModeScreen extends JPanel {
 
+        public ClassicModeScreen() {
+            setLayout(new BorderLayout());
+
+            // Add image and text input in the center
+            JPanel centerPanel = new JPanel(new BorderLayout());
+            ImageIcon imageIcon = new ImageIcon("Flag_of_Australia-512x256.png");
+            JLabel imageLabel = new JLabel(imageIcon);
+            imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            centerPanel.add(imageLabel, BorderLayout.CENTER);
+
+            JTextField inputTextField = new JTextField();
+            inputTextField.setHorizontalAlignment(JTextField.CENTER);
+            centerPanel.add(inputTextField, BorderLayout.SOUTH);
+
+            add(centerPanel, BorderLayout.CENTER);
+
+            // Add lives display on top left
+            JLabel livesLabel = new JLabel("Lives: 3");
+            livesLabel.setFont(new Font("Arial", Font.BOLD, 24));
+            livesLabel.setForeground(Color.BLACK);
+            add(livesLabel, BorderLayout.NORTH);
+
+            // Add hint button in the top right corner
+            JButton hintButton = new JButton("Hint");
+            hintButton.setPreferredSize(new Dimension(80, 30)); // Set preferred size
+            hintButton.addActionListener(event -> {
+                // Display hint logic
+                JOptionPane.showMessageDialog(this, "This is a hint.");
+            });
+            JPanel hintPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+            hintPanel.setOpaque(false); // Make the panel transparent
+            hintPanel.add(hintButton);
+            add(hintPanel, BorderLayout.NORTH);
+
+            // Add Enter Guess button below the input box
+            JButton enterGuessButton = new JButton("Enter Guess");
+            enterGuessButton.addActionListener(event -> {
+                // Enter Guess logic
+                String guess = inputTextField.getText();
+                // Process the guess
+                JOptionPane.showMessageDialog(this, "You guessed: " + guess);
+                // Clear the text field after processing the guess
+                inputTextField.setText("");
+            });
+            add(enterGuessButton, BorderLayout.SOUTH);
+        }
+    }
 }

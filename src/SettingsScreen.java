@@ -2,8 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class SettingsScreen extends JPanel {
-    // Declare the flagMode variable as static to make it globally accessible
+    // Static variables for flag mode and music state
     private static boolean flagMode = false;
+    private static boolean musicOn = true; // Assuming music is on by default
 
     public SettingsScreen(CardLayout cardLayout, JPanel cardPanel) {
         setLayout(new BorderLayout());
@@ -17,20 +18,21 @@ public class SettingsScreen extends JPanel {
         settingsPanel.setLayout(new BoxLayout(settingsPanel, BoxLayout.Y_AXIS));
 
         // Music On/Off toggle button
-        JToggleButton musicToggleButton = new JToggleButton("Music On");
+        JToggleButton musicToggleButton = new JToggleButton("Music On", musicOn);
         musicToggleButton.addActionListener(e -> {
-            if (musicToggleButton.isSelected()) {
+            musicOn = musicToggleButton.isSelected(); // Update the music state based on the button state
+            if (musicOn) {
                 musicToggleButton.setText("Music Off");
-                // Logic to turn off music here
+                // Add logic to turn off music here
             } else {
                 musicToggleButton.setText("Music On");
-                // Logic to turn on music here
+                // Add logic to turn on music here
             }
         });
         musicToggleButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Flag Mode On/Off toggle button
-        JToggleButton flagModeToggleButton = new JToggleButton("Flag Mode On");
+        JToggleButton flagModeToggleButton = new JToggleButton("Flag Mode On", flagMode);
         flagModeToggleButton.addActionListener(e -> {
             flagMode = flagModeToggleButton.isSelected(); // Update the flag mode status based on the button state
             if (flagMode) {
@@ -60,10 +62,13 @@ public class SettingsScreen extends JPanel {
 
         add(backButtonPanel, BorderLayout.SOUTH);
     }
- //
-    // Public static method to access the flag mode status from other classes
+
+    // Public static methods to access the status of flag mode and music state
     public static boolean isFlagModeEnabled() {
         return flagMode;
     }
-}
 
+    public static boolean isMusicOn() {
+        return musicOn;
+    }
+}

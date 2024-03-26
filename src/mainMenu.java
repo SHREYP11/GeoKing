@@ -67,6 +67,7 @@ class MainMenuScreen extends JPanel {
     private JPanel cardPanel;
 
     private SoundPlayer soundPlayer = new SoundPlayer();
+    private SoundPlayer clicker = new SoundPlayer();
     private Boolean sound = SettingsScreen.isMusicOn();
 
     public MainMenuScreen(CardLayout cardLayout, JPanel cardPanel) {
@@ -124,6 +125,7 @@ class MainMenuScreen extends JPanel {
         add(buttonPanel, BorderLayout.CENTER);
 
         classicModeButton.addActionListener(e -> {
+            clicker.playSound("src/Resources/click.wav", false);
             // Create a new instance of ClassicModeScreen
             ClassicModeScreen classicModeScreen = new ClassicModeScreen(cardLayout, cardPanel);
 

@@ -60,7 +60,7 @@ public class SettingsScreen extends JPanel {
 
         add(backButtonPanel, BorderLayout.SOUTH);
     }
-
+ //
     // Public static method to access the flag mode status from other classes
     public static boolean isFlagModeEnabled() {
         return flagMode;

@@ -4,7 +4,13 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ClassicModeScreen extends JPanel {
-    public ClassicModeScreen() {
+    private CardLayout cardLayout;
+    private JPanel cardPanel;
+
+    public ClassicModeScreen(CardLayout cardLayout, JPanel cardPanel) {
+        this.cardLayout = cardLayout;
+        this.cardPanel = cardPanel;
+
         levelDatabase levels = new levelDatabase();
         // this is the level selection code
         user currentUser = LoginScreen.getCurrentUser();
@@ -54,7 +60,7 @@ public class ClassicModeScreen extends JPanel {
                 userDatabase updateData = new userDatabase();
                 updateData.findUser(currentUser.getName()).incrementClassicLevel();
                 updateData.exportDatabase();
-
+                cardLayout.show(cardPanel, "MainMenu");
             }
             else {
                 lives.getAndDecrement();
@@ -67,7 +73,7 @@ public class ClassicModeScreen extends JPanel {
                 // Check if lives are depleted
                 if (lives.get() <= 0) {
                     JOptionPane.showMessageDialog(this, "Game Over! You have run out of lives.");
-                    // Handle game over logic here, such as resetting the game or redirecting to a game over screen
+                    cardLayout.show(cardPanel, "MainMenu");
                 }
             }
         });

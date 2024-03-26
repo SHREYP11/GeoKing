@@ -111,7 +111,22 @@ class MainMenuScreen extends JPanel {
 
         classicModeButton.addActionListener(e -> {
             removeAll();
-            add(new ClassicModeScreen(), BorderLayout.CENTER);
+
+            // Create a new instance of ClassicModeScreen
+            ClassicModeScreen classicModeScreen = new ClassicModeScreen(cardLayout, cardPanel);
+
+            // Create a main menu card panel instance
+            MainMenuScreen mainMenuScreen = new MainMenuScreen(cardLayout, cardPanel);
+
+            // Add the main menu card panel to the main menu card panel container
+            cardPanel.add(mainMenuScreen, "MainMenu");
+
+            // Add the ClassicModeScreen to the cardPanel
+            cardPanel.add(classicModeScreen, "ClassicModeScreen");
+
+            // Switch to the ClassicModeScreen using CardLayout
+            cardLayout.show(cardPanel, "ClassicModeScreen");
+
             revalidate();
             repaint();
         });

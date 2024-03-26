@@ -8,6 +8,9 @@ public class ClassicModeScreen extends JPanel {
     private JPanel cardPanel;
 
     public ClassicModeScreen(CardLayout cardLayout, JPanel cardPanel) {
+
+        boolean mode = SettingsScreen.isFlagModeEnabled();
+
         this.cardLayout = cardLayout;
         this.cardPanel = cardPanel;
 

@@ -1,8 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
 
-
-
 class LoginScreen extends JPanel {
 
     public static user currentUser;
@@ -82,17 +80,20 @@ class MainMenuScreen extends JPanel {
         JButton frenzyModeButton = new JButton("FRENZY MODE");
         JButton leaderboardButton = new JButton("LEADERBOARD");
         JButton settingsButton = new JButton("SETTINGS");
+        JButton exitButton = new JButton("EXIT");
 
         Dimension buttonSize = new Dimension(800, 100);
         classicModeButton.setPreferredSize(buttonSize);
         frenzyModeButton.setPreferredSize(buttonSize);
         leaderboardButton.setPreferredSize(buttonSize);
         settingsButton.setPreferredSize(buttonSize);
+        exitButton.setPreferredSize(new Dimension(200,25));
 
         classicModeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         frenzyModeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         leaderboardButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         settingsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
@@ -105,6 +106,8 @@ class MainMenuScreen extends JPanel {
         buttonPanel.add(leaderboardButton);
         buttonPanel.add(Box.createVerticalGlue());
         buttonPanel.add(settingsButton);
+        buttonPanel.add(Box.createVerticalGlue());
+        buttonPanel.add(exitButton);
         buttonPanel.add(Box.createVerticalGlue());
 
         add(buttonPanel, BorderLayout.CENTER);
@@ -130,6 +133,8 @@ class MainMenuScreen extends JPanel {
         });
 
         settingsButton.addActionListener(e -> this.cardLayout.show(this.cardPanel, "SETTINGS"));
+
+        exitButton.addActionListener(e -> System.exit(0)); // Exit the program
     }
 
     public void setCardLayout(CardLayout cardLayout, JPanel cardPanel) {

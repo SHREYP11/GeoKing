@@ -44,6 +44,8 @@ class LoginScreen extends JPanel {
             }
             cardLayout.show(getParent(), "MAIN_MENU");
         });
+
+
     }
 
     // Static method to set the current user
@@ -64,9 +66,18 @@ class MainMenuScreen extends JPanel {
     private CardLayout cardLayout;
     private JPanel cardPanel;
 
+    private SoundPlayer soundPlayer = new SoundPlayer();
+    private Boolean sound = SettingsScreen.isMusicOn();
+
     public MainMenuScreen(CardLayout cardLayout, JPanel cardPanel) {
         this.cardLayout = cardLayout;
         this.cardPanel = cardPanel;
+
+        if (sound) {
+            soundPlayer.playSound("src/Resources/music.wav", true);
+        } else {
+            soundPlayer.stopSound();
+        }
 
         setLayout(new BorderLayout());
 

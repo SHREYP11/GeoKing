@@ -1,57 +1,37 @@
+import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
 
-import javax.sound.sampled.*;
-
-/**
- * A class for playing sound files using Java Sound API.
- *
- * @author Michael Zhao
- * @version 1.0
- */
 public class SoundPlayer {
+    private Clip clip;
 
-    /**
-     * Plays the specified audio file.
-     *
-     * @param filename the path of the audio file to be played.
-     */
-    public void play(String filename) throws UnsupportedAudioFileException {
+    public void playSound(String filePath, boolean loop) {
         try {
+            // Open an audio input stream.
+            File audioFile = new File(filePath);
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
 
-            // create new file object
-            File file = new File(filename);
+            // Get a sound clip resource.
+            clip = AudioSystem.getClip();
 
-            // create new AudioInputStream object
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
+            // Open audio clip and load samples from the audio input stream.
+            clip.open(audioStream);
 
-            Clip clip = AudioSystem.getClip(); // create new Clip object
+            // Loop the clip if specified
+            if (loop) {
+                clip.loop(Clip.LOOP_CONTINUOUSLY);
+            }
 
-            clip.open(audioInputStream);
-            // press button in settings GUI and start the clip
+            // Start playing
             clip.start();
-
-        } catch (Exception exception) {
-            throw new UnsupportedAudioFileException(
-                    "Operation failed because file did not contain valid data of a recognized file type and format");
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
         }
-
     }
 
-    /**
-     * Stops the specified audio clip.
-     *
-     * @param clip the audio clip to be stopped.
-     * @throws UnsupportedAudioFileException if the audio file is not supported.
-     * @throws IOException                   if an I/O error occurs.
-     * @throws LineUnavailableException      if a line cannot be opened because it
-     *                                       is unavailable.
-     */
-    public void stop(Clip clip) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-        // press button in settings GUI and stop the clip
-        clip.stop();
-        clip.close();
-
+    public void stopSound() {
+        if (clip != null) {
+            clip.stop();
+        }
     }
-
 }

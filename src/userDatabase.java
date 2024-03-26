@@ -56,7 +56,7 @@ public class userDatabase {
      *
      * @param name the name of the user
      * @return the user object if the user object was found in the database, returns
-     *         null if not found
+     * null if not found
      */
     public user findUser(String name) {
         for (user temp : users) {
@@ -85,5 +85,4 @@ public class userDatabase {
             e.printStackTrace();
         }
     }
-
 }

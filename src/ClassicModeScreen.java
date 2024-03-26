@@ -72,7 +72,7 @@ public class ClassicModeScreen extends JPanel {
         JButton enterGuessButton = new JButton("Enter Guess");
         enterGuessButton.addActionListener(event -> {
             String guess = inputTextField.getText();
-            if (Objects.equals(guess, countyName)){
+            if (Objects.equals(guess.toLowerCase(), countyName.toLowerCase())){
                 JOptionPane.showMessageDialog(this, "Congratulations " + guess + " was the correct country.");
                 currentUser.incrementClassicLevel();
                 userDatabase updateData = new userDatabase();

@@ -51,7 +51,14 @@ public class ClassicModeScreen extends JPanel {
         add(topPanel, BorderLayout.NORTH);
 
         JPanel centerPanel = new JPanel(new BorderLayout());
-        ImageIcon imageIcon = new ImageIcon("src/Resources/Countries/" + countyName.toLowerCase() + "-silhouette.png");
+        String path = "";
+        if (mode){
+            path = "src/Resources/Countries/" + countyName.toLowerCase() + "-silhouette.png";
+        }
+        else{
+            path = "src/Resources/Flags/" + countyName + "Flag.png";
+        }
+        ImageIcon imageIcon = new ImageIcon(path);
         JLabel imageLabel = new JLabel(imageIcon);
         imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
         centerPanel.add(imageLabel, BorderLayout.CENTER);

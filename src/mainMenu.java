@@ -5,23 +5,29 @@ class LoginScreen extends JPanel {
 
     public static user currentUser;
     public LoginScreen() {
+        setBackground(new Color(192, 192, 192));
         setLayout(new BorderLayout(0, 50));
+
         JPanel titlePanel = new JPanel();
         titlePanel.add(new JLabel("GEOKING"));
+        titlePanel.setBackground(new Color(192, 192, 192));
 
         JPanel containerPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.fill = GridBagConstraints.HORIZONTAL;
+        containerPanel.setBackground(new Color(192, 192, 192));
 
         JPanel loginPanel = new JPanel(new BorderLayout()); // Use BorderLayout for loginPanel
+        loginPanel.setBackground(new Color(192, 192, 192));
 
         // Create a label for the image
-        JLabel imageLabel = new JLabel(new ImageIcon("src/Resources/logo.png")); // Change "your_image_path.jpg" to your image path
+        JLabel imageLabel = new JLabel(new ImageIcon("src/Resources/logo.png"));
         imageLabel.setHorizontalAlignment(SwingConstants.CENTER); // Center the image
         loginPanel.add(imageLabel, BorderLayout.CENTER); // Add image label to the center of loginPanel
 
         JPanel usernamePanel = new JPanel(new FlowLayout()); // Create a panel for username components
+        usernamePanel.setBackground(new Color(192, 192, 192));
         usernamePanel.add(new JLabel("USERNAME:"));
 
         JTextField usernameField = new JTextField();
@@ -33,6 +39,8 @@ class LoginScreen extends JPanel {
         containerPanel.add(loginPanel, gbc);
 
         JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(new Color(192, 192, 192));
+
         JButton enterButton = new JButton("ENTER");
         enterButton.setPreferredSize(new Dimension(200, 80));
         enterButton.setFont(enterButton.getFont().deriveFont(Font.BOLD, 18));
@@ -56,7 +64,6 @@ class LoginScreen extends JPanel {
             cardLayout.show(getParent(), "MAIN_MENU");
         });
     }
-
     // Static method to set the current user
     public static void setCurrentUser(user user) {
         currentUser = user;

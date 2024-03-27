@@ -14,17 +14,28 @@ class LoginScreen extends JPanel {
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        JPanel loginPanel = new JPanel(new FlowLayout());
-        loginPanel.add(new JLabel("USERNAME:"));
+        JPanel loginPanel = new JPanel(new BorderLayout()); // Use BorderLayout for loginPanel
+
+        // Create a label for the image
+        JLabel imageLabel = new JLabel(new ImageIcon("src/Resources/logo.png")); // Change "your_image_path.jpg" to your image path
+        imageLabel.setHorizontalAlignment(SwingConstants.CENTER); // Center the image
+        loginPanel.add(imageLabel, BorderLayout.CENTER); // Add image label to the center of loginPanel
+
+        JPanel usernamePanel = new JPanel(new FlowLayout()); // Create a panel for username components
+        usernamePanel.add(new JLabel("USERNAME:"));
 
         JTextField usernameField = new JTextField();
         usernameField.setPreferredSize(new Dimension(300, 40));
-        loginPanel.add(usernameField);
+        usernamePanel.add(usernameField);
+
+        loginPanel.add(usernamePanel, BorderLayout.SOUTH); // Add usernamePanel to the bottom of loginPanel
 
         containerPanel.add(loginPanel, gbc);
 
         JPanel buttonPanel = new JPanel();
         JButton enterButton = new JButton("ENTER");
+        enterButton.setPreferredSize(new Dimension(200, 80));
+        enterButton.setFont(enterButton.getFont().deriveFont(Font.BOLD, 18));
         buttonPanel.add(enterButton);
 
         add(titlePanel, BorderLayout.NORTH);

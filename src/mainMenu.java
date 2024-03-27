@@ -129,6 +129,18 @@ class MainMenuScreen extends JPanel {
             repaint();
         });
 
+        // Inside the MainMenuScreen class
+        LeaderboardScreen leaderboardScreen;
+
+        // Inside the constructor of MainMenuScreen
+        leaderboardScreen = new LeaderboardScreen(); // Instantiate LeaderboardScreen
+        this.cardPanel.add(leaderboardScreen, "LeaderboardScreen"); // Add it to cardPanel with identifier "LeaderboardScreen"
+
+        // Action listener for the leaderboard button
+        leaderboardButton.addActionListener(e -> {
+            cardLayout.show(cardPanel, "LeaderboardScreen"); // Switch to the LeaderboardScreen using CardLayout
+        });
+
         settingsButton.addActionListener(e -> this.cardLayout.show(this.cardPanel, "SETTINGS"));
     }
 

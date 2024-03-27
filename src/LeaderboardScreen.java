@@ -19,6 +19,7 @@ public class LeaderboardScreen extends JPanel {
         // Create classic leaderboard table
         JPanel classicPanel = new JPanel(new BorderLayout());
         JLabel classicLabel = new JLabel("Classic Leaderboard", SwingConstants.CENTER);
+        classicLabel.setFont(new Font(classicLabel.getFont().getName(), Font.PLAIN, 30));
         classicPanel.add(classicLabel, BorderLayout.NORTH);
         classicLeaderboardTable = new JTable();
         updateClassicLeaderboard(userData);
@@ -27,6 +28,7 @@ public class LeaderboardScreen extends JPanel {
         // Create frenzy leaderboard table
         JPanel frenzyPanel = new JPanel(new BorderLayout());
         JLabel frenzyLabel = new JLabel("Frenzy Leaderboard", SwingConstants.CENTER);
+        frenzyLabel.setFont(new Font(frenzyLabel.getFont().getName(), Font.PLAIN, 30)); // Set font size
         frenzyPanel.add(frenzyLabel, BorderLayout.NORTH);
         frenzyLeaderboardTable = new JTable();
         updateFrenzyLeaderboard(userData);

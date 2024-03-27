@@ -44,8 +44,6 @@ class LoginScreen extends JPanel {
             }
             cardLayout.show(getParent(), "MAIN_MENU");
         });
-
-
     }
 
     // Static method to set the current user

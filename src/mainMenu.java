@@ -1,8 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
 
-
-
 class LoginScreen extends JPanel {
 
     public static user currentUser;
@@ -46,6 +44,8 @@ class LoginScreen extends JPanel {
             }
             cardLayout.show(getParent(), "MAIN_MENU");
         });
+
+
     }
 
     // Static method to set the current user
@@ -66,9 +66,19 @@ class MainMenuScreen extends JPanel {
     private CardLayout cardLayout;
     private JPanel cardPanel;
 
+    private SoundPlayer soundPlayer = new SoundPlayer();
+    private SoundPlayer clicker = new SoundPlayer();
+    private Boolean sound = SettingsScreen.isMusicOn();
+
     public MainMenuScreen(CardLayout cardLayout, JPanel cardPanel) {
         this.cardLayout = cardLayout;
         this.cardPanel = cardPanel;
+
+        if (sound) {
+            soundPlayer.playSound("src/Resources/music.wav", true);
+        } else {
+            soundPlayer.stopSound();
+        }
 
         setLayout(new BorderLayout());
 
@@ -82,17 +92,20 @@ class MainMenuScreen extends JPanel {
         JButton frenzyModeButton = new JButton("FRENZY MODE");
         JButton leaderboardButton = new JButton("LEADERBOARD");
         JButton settingsButton = new JButton("SETTINGS");
+        JButton exitButton = new JButton("EXIT");
 
         Dimension buttonSize = new Dimension(800, 100);
         classicModeButton.setPreferredSize(buttonSize);
         frenzyModeButton.setPreferredSize(buttonSize);
         leaderboardButton.setPreferredSize(buttonSize);
         settingsButton.setPreferredSize(buttonSize);
+        exitButton.setPreferredSize(new Dimension(200,25));
 
         classicModeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         frenzyModeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         leaderboardButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         settingsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
@@ -106,10 +119,13 @@ class MainMenuScreen extends JPanel {
         buttonPanel.add(Box.createVerticalGlue());
         buttonPanel.add(settingsButton);
         buttonPanel.add(Box.createVerticalGlue());
+        buttonPanel.add(exitButton);
+        buttonPanel.add(Box.createVerticalGlue());
 
         add(buttonPanel, BorderLayout.CENTER);
 
         classicModeButton.addActionListener(e -> {
+            clicker.playSound("src/Resources/click.wav", false);
             // Create a new instance of ClassicModeScreen
             ClassicModeScreen classicModeScreen = new ClassicModeScreen(cardLayout, cardPanel);
 
@@ -142,6 +158,8 @@ class MainMenuScreen extends JPanel {
         });
 
         settingsButton.addActionListener(e -> this.cardLayout.show(this.cardPanel, "SETTINGS"));
+
+        exitButton.addActionListener(e -> System.exit(0)); // Exit the program
     }
 
     public void setCardLayout(CardLayout cardLayout, JPanel cardPanel) {

@@ -37,7 +37,7 @@ class LoginScreen extends JPanel {
             userDatabase userData = new userDatabase();
             String usernameInputed = usernameField.getText();
             currentUser = userData.findUser(usernameInputed);
-            if (currentUser ==null) {
+            if (currentUser == null) {
                 userData.createUser(usernameInputed);
                 userData.exportDatabase();
                 currentUser = userData.findUser(usernameInputed);

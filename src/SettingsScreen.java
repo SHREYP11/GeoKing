@@ -6,7 +6,7 @@ public class SettingsScreen extends JPanel {
     private static boolean flagMode = true;
     private static boolean musicOn = true; // Assuming music is on by default
 
-    public SettingsScreen(CardLayout cardLayout, JPanel cardPanel) {
+    public SettingsScreen(CardLayout cardLayout, JPanel cardPanel,SoundPlayer music) {
         setLayout(new BorderLayout());
         setBackground(new Color(192, 192, 192)); // Set background color for SettingsScreen
 
@@ -25,11 +25,11 @@ public class SettingsScreen extends JPanel {
         musicToggleButton.addActionListener(e -> {
             musicOn = musicToggleButton.isSelected(); // Update the music state based on the button state
             if (musicOn) {
-                musicToggleButton.setText("Music Off");
-                // Add logic to turn off music here
-            } else {
                 musicToggleButton.setText("Music On");
-                // Add logic to turn on music here
+                music.playSound("src/Resources/music.wav", true);
+            } else {
+                musicToggleButton.setText("Music Off");
+                music.stopSound();
             }
         });
         musicToggleButton.setAlignmentX(Component.CENTER_ALIGNMENT);

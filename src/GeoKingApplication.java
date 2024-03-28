@@ -24,7 +24,7 @@ public class GeoKingApplication {
         mainMenuScreen.setCardLayout(cardLayout, cardPanel);
         cardPanel.add(mainMenuScreen, "MAIN_MENU");
 
-        SettingsScreen settingsScreen = new SettingsScreen(cardLayout, cardPanel);
+        SettingsScreen settingsScreen = new SettingsScreen(cardLayout, cardPanel, mainMenuScreen.getSoundPlayer());
         cardPanel.add(settingsScreen, "SETTINGS");
 
         cardLayout.show(cardPanel, "LOGIN");

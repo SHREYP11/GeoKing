@@ -1,6 +1,6 @@
-import javax.swing.*;
 import java.awt.*;
-
+import java.awt.event.*;
+import javax.swing.*;
 class LoginScreen extends JPanel {
 
     public static user currentUser;
@@ -50,19 +50,33 @@ class LoginScreen extends JPanel {
         add(containerPanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
 
-        enterButton.addActionListener(e -> {
-            CardLayout cardLayout = (CardLayout) getParent().getLayout();
-            // this is the code to grab the user from database
-            userDatabase userData = new userDatabase();
-            String usernameInputed = usernameField.getText();
-            currentUser = userData.findUser(usernameInputed);
-            if (currentUser == null) {
-                userData.createUser(usernameInputed);
-                userData.exportDatabase();
-                currentUser = userData.findUser(usernameInputed);
+        // ActionListener for the Enter button
+        enterButton.addActionListener(e -> performLogin(usernameField));
+
+        // KeyListener for the Enter key press event on the username field
+        usernameField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    performLogin(usernameField);
+                }
             }
-            cardLayout.show(getParent(), "MAIN_MENU");
         });
+    }
+
+    // Method to perform login action
+    private void performLogin(JTextField usernameField) {
+        CardLayout cardLayout = (CardLayout) getParent().getLayout();
+        // this is the code to grab the user from database
+        userDatabase userData = new userDatabase();
+        String usernameInputed = usernameField.getText();
+        currentUser = userData.findUser(usernameInputed);
+        if (currentUser == null) {
+            userData.createUser(usernameInputed);
+            userData.exportDatabase();
+            currentUser = userData.findUser(usernameInputed);
+        }
+        cardLayout.show(getParent(), "MAIN_MENU");
     }
     // Static method to set the current user
     public static void setCurrentUser(user user) {
@@ -91,8 +105,6 @@ class MainMenuScreen extends JPanel {
 
         if (sound) {
             soundPlayer.playSound("src/Resources/music.wav", true);
-        } else {
-            soundPlayer.stopSound();
         }
 
         setLayout(new BorderLayout());
@@ -194,6 +206,10 @@ class MainMenuScreen extends JPanel {
     }
 
     public void setCardLayout(CardLayout cardLayout, JPanel cardPanel) {
+    }
+
+    public SoundPlayer getSoundPlayer(){
+        return soundPlayer;
     }
 
     @Override

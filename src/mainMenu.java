@@ -138,7 +138,26 @@ class MainMenuScreen extends JPanel {
         buttonPanel.add(Box.createVerticalGlue());
 
         add(buttonPanel, BorderLayout.CENTER);
+        frenzyModeButton.addActionListener(e -> {
+            clicker.playSound("src/Resources/click.wav", false);
+            Component[] components = cardPanel.getComponents();
+            for (Component component : components) {
+                if (component instanceof FrenzyModeScreen) {
+                    cardPanel.remove(component);
+                }
+            }
+            FrenzyModeScreen frenzyModeScreen = new FrenzyModeScreen(cardLayout,cardPanel);
 
+            // Add the ClassicModeScreen to the cardPanel
+            cardPanel.add(frenzyModeScreen, "FrenzyModeScreen");
+
+            // Switch to the ClassicModeScreen using CardLayout
+            cardLayout.show(cardPanel, "FrenzyModeScreen");
+
+            revalidate();
+            repaint();
+
+        });
         classicModeButton.addActionListener(e -> {
             clicker.playSound("src/Resources/click.wav", false);
             // Create a new instance of ClassicModeScreen

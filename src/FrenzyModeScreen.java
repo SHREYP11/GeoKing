@@ -1,54 +1,54 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class ClassicModeScreen extends JPanel {
+public class FrenzyModeScreen extends JPanel {
     private CardLayout cardLayout;
     private JPanel cardPanel;
     private JTextField inputTextField;
+    private Timer timer;
+    private JLabel timerLabel;
+    private int secondsLeft;
 
     private country Country;
 
-    public ClassicModeScreen(CardLayout cardLayout, JPanel cardPanel) {
-
+    public FrenzyModeScreen(CardLayout cardLayout, JPanel cardPanel) {
         boolean mode = SettingsScreen.isFlagModeEnabled();
-
         this.cardLayout = cardLayout;
         this.cardPanel = cardPanel;
 
         levelDatabase levels = new levelDatabase();
-        // this is the level selection code
         user currentUser = LoginScreen.getCurrentUser();
-        int classicLevel = currentUser.getClassicLevel();
-        Country = levels.selectLevel(classicLevel);
+        int frenzyLevel = currentUser.getFrenzyLevel();
+        Country = levels.selectLevel(frenzyLevel);
         String countyName = Country.getName();
 
         setLayout(new BorderLayout());
-        setBackground(new Color(192, 192, 192)); // Set background color for ClassicModeScreen
+        setBackground(new Color(192, 192, 192));
 
         JPanel topPanel = new JPanel(new BorderLayout());
-        topPanel.setBackground(new Color(192, 192, 192)); // Set background color for topPanel
+        topPanel.setBackground(new Color(192, 192, 192));
 
-        // Add Exit Button to top left
         JButton exitButton = new JButton("Exit");
         exitButton.addActionListener(e -> {
+            timer.stop();
             CardLayout cardLayout1 = (CardLayout) getParent().getLayout();
             cardLayout1.show(getParent(), "MAIN_MENU");
             revalidate();
             repaint();
-        }); // Exit to main
+        });
         topPanel.add(exitButton, BorderLayout.WEST);
 
-        // Lives Counter in the top middle
-        AtomicInteger lives = new AtomicInteger(5);
-        JLabel livesLabel = new JLabel("Lives: " + lives);
-        livesLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        livesLabel.setForeground(Color.BLACK);
-        livesLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        topPanel.add(livesLabel, BorderLayout.CENTER);
+        timerLabel = new JLabel("Time Left: 30");
+        timerLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        timerLabel.setForeground(Color.BLACK);
+        timerLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        topPanel.add(timerLabel, BorderLayout.CENTER);
 
         JButton hintButton = new JButton("Hint");
         hintButton.setPreferredSize(new Dimension(80, 30));
@@ -63,7 +63,7 @@ public class ClassicModeScreen extends JPanel {
         add(topPanel, BorderLayout.NORTH);
 
         JPanel centerPanel = new JPanel(new BorderLayout());
-        centerPanel.setBackground(new Color(192, 192, 192)); // Set background color for centerPanel
+        centerPanel.setBackground(new Color(192, 192, 192));
 
         String path = "";
         if (mode) {
@@ -78,7 +78,7 @@ public class ClassicModeScreen extends JPanel {
 
         inputTextField = new JTextField();
         inputTextField.setHorizontalAlignment(JTextField.CENTER);
-        inputTextField.setPreferredSize(new Dimension(inputTextField.getPreferredSize().width, 40)); // Set text field height
+        inputTextField.setPreferredSize(new Dimension(inputTextField.getPreferredSize().width, 40));
         inputTextField.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {}
@@ -100,20 +100,33 @@ public class ClassicModeScreen extends JPanel {
         JButton enterGuessButton = new JButton("Enter Guess");
         enterGuessButton.addActionListener(event -> processGuess());
         add(enterGuessButton, BorderLayout.SOUTH);
+
+        secondsLeft = 30;
+        timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                secondsLeft--;
+                if (secondsLeft >= 0) {
+                    timerLabel.setText("Time Left: " + secondsLeft);
+                } else {
+                    timer.stop();
+                    gameOver();
+                }
+            }
+        });
+        timer.start();
     }
 
     private void processGuess() {
-        String guess = inputTextField.getText();
+        String guess = inputTextField.getText().toLowerCase();
         user currentUser = LoginScreen.getCurrentUser();
         String countyName = Country.getName();
 
-        AtomicInteger lives = new AtomicInteger(5);
-
         if (Objects.equals(guess.toLowerCase(), countyName.toLowerCase())) {
             // Correct guess
-            currentUser.incrementClassicLevel();
+            currentUser.incrementFrenzyLevel();
             userDatabase updateData = new userDatabase();
-            updateData.findUser(currentUser.getName()).incrementClassicLevel();
+            updateData.findUser(currentUser.getName()).incrementFrenzyLevel();
             updateData.exportDatabase();
             int option = JOptionPane.showOptionDialog(this,
                     "Congratulations " + guess + " was the correct country.",
@@ -125,20 +138,15 @@ public class ClassicModeScreen extends JPanel {
                     "Main Menu");
 
             if (option == JOptionPane.YES_OPTION) {
-                // Proceed to the next level
                 Component[] components = cardPanel.getComponents();
                 for (Component component : components) {
-                    if (component instanceof ClassicModeScreen) {
+                    if (component instanceof FrenzyModeScreen) {
                         cardPanel.remove(component);
                     }
                 }
-                ClassicModeScreen classicModeScreen = new ClassicModeScreen(cardLayout,cardPanel);
-
-                // Add the ClassicModeScreen to the cardPanel
-                cardPanel.add(classicModeScreen, "ClassicModeScreen");
-
-                // Switch to the ClassicModeScreen using CardLayout
-                cardLayout.show(cardPanel, "ClassicModeScreen");
+                FrenzyModeScreen frenzyModeScreen = new FrenzyModeScreen(cardLayout, cardPanel);
+                cardPanel.add(frenzyModeScreen, "FrenzyModeScreen");
+                cardLayout.show(cardPanel, "FrenzyModeScreen");
 
                 revalidate();
                 repaint();
@@ -151,22 +159,17 @@ public class ClassicModeScreen extends JPanel {
             }
         } else {
             // Incorrect guess
-            lives.getAndDecrement();
             JOptionPane.showMessageDialog(this, "You guessed: " + guess + ", This was not the correct country.");
             inputTextField.setText("");
-
-            // Update lives label to reflect the new value
-            JLabel livesLabel = (JLabel)((JPanel)getComponent(0)).getComponent(1); // Assuming lives label is at index 1 of the top panel
-            livesLabel.setText("Lives: " + lives);
-
-            // Check if lives are depleted
-            if (lives.get() <= 0) {
-                JOptionPane.showMessageDialog(this, "Game Over! You have run out of lives.");
-                CardLayout cardLayout1 = (CardLayout) getParent().getLayout();
-                cardLayout1.show(getParent(), "MAIN_MENU");
-                revalidate();
-                repaint();
-            }
         }
+    }
+
+    private void gameOver() {
+        JOptionPane.showMessageDialog(this, "Time's up! Game over.");
+        timerLabel.setText("Time's Up!");
+        CardLayout cardLayout1 = (CardLayout) getParent().getLayout();
+        cardLayout1.show(getParent(), "MAIN_MENU");
+        revalidate();
+        repaint();
     }
 }

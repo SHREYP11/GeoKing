@@ -81,7 +81,6 @@ class LoginScreen extends JPanel {
 class MainMenuScreen extends JPanel {
     private CardLayout cardLayout;
     private JPanel cardPanel;
-
     private SoundPlayer soundPlayer = new SoundPlayer();
     private SoundPlayer clicker = new SoundPlayer();
     private Boolean sound = SettingsScreen.isMusicOn();
@@ -143,13 +142,13 @@ class MainMenuScreen extends JPanel {
         classicModeButton.addActionListener(e -> {
             clicker.playSound("src/Resources/click.wav", false);
             // Create a new instance of ClassicModeScreen
-            ClassicModeScreen classicModeScreen = new ClassicModeScreen(cardLayout, cardPanel);
-
-            // Create a main menu card panel instance
-            MainMenuScreen mainMenuScreen = new MainMenuScreen(cardLayout, cardPanel);
-
-            // Add the main menu card panel to the main menu card panel container
-            this.cardPanel.add(mainMenuScreen, "MainMenu");
+            Component[] components = cardPanel.getComponents();
+            for (Component component : components) {
+                if (component instanceof ClassicModeScreen) {
+                    cardPanel.remove(component);
+                }
+            }
+            ClassicModeScreen classicModeScreen = new ClassicModeScreen(cardLayout,cardPanel);
 
             // Add the ClassicModeScreen to the cardPanel
             this.cardPanel.add(classicModeScreen, "ClassicModeScreen");
@@ -160,17 +159,14 @@ class MainMenuScreen extends JPanel {
             revalidate();
             repaint();
         });
-
-        // Inside the MainMenuScreen class
-        LeaderboardScreen leaderboardScreen;
-
-        // Inside the constructor of MainMenuScreen
-        leaderboardScreen = new LeaderboardScreen(); // Instantiate LeaderboardScreen
-        this.cardPanel.add(leaderboardScreen, "LeaderboardScreen"); // Add it to cardPanel with identifier "LeaderboardScreen"
-
-        // Action listener for the leaderboard button
         leaderboardButton.addActionListener(e -> {
-            cardLayout.show(cardPanel, "LeaderboardScreen"); // Switch to the LeaderboardScreen using CardLayout
+
+            LeaderboardScreen leaderboardScreen = new LeaderboardScreen(); // Instantiate LeaderboardScreen
+            this.cardPanel.add(leaderboardScreen, "LeaderboardScreen"); // A
+            cardLayout.show(cardPanel, "LeaderboardScreen");
+            revalidate();
+            repaint();
+            // Switch to the LeaderboardScreen using CardLayout
         });
 
         settingsButton.addActionListener(e -> this.cardLayout.show(this.cardPanel, "SETTINGS"));

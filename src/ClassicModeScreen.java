@@ -27,7 +27,12 @@ public class ClassicModeScreen extends JPanel {
 
         // Add Exit Button to top left
         JButton exitButton = new JButton("Exit");
-        exitButton.addActionListener(e -> cardLayout.show(cardPanel, "MainMenu")); // Exit to main
+        exitButton.addActionListener(e ->{
+            CardLayout cardLayout1 = (CardLayout) getParent().getLayout();
+            cardLayout1.show(getParent(), "MAIN_MENU");
+            revalidate();
+            repaint();
+        }); // Exit to main
         topPanel.add(exitButton, BorderLayout.WEST);
 
         // Lives Counter in the top middle
@@ -73,12 +78,45 @@ public class ClassicModeScreen extends JPanel {
         enterGuessButton.addActionListener(event -> {
             String guess = inputTextField.getText();
             if (Objects.equals(guess.toLowerCase(), countyName.toLowerCase())){
-                JOptionPane.showMessageDialog(this, "Congratulations " + guess + " was the correct country.");
+                // Proceed to the next level
                 currentUser.incrementClassicLevel();
                 userDatabase updateData = new userDatabase();
                 updateData.findUser(currentUser.getName()).incrementClassicLevel();
                 updateData.exportDatabase();
-                cardLayout.show(cardPanel, "MainMenu");
+                int option = JOptionPane.showOptionDialog(this,
+                        "Congratulations " + guess + " was the correct country.",
+                        "Correct Guess",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.INFORMATION_MESSAGE,
+                        null,
+                        new String[]{"Next Level", "Main Menu"},
+                        "Main Menu");
+
+                if (option == JOptionPane.YES_OPTION) {
+                    // Proceed to the next level
+                    Component[] components = cardPanel.getComponents();
+                    for (Component component : components) {
+                        if (component instanceof ClassicModeScreen) {
+                            cardPanel.remove(component);
+                        }
+                    }
+                    ClassicModeScreen classicModeScreen = new ClassicModeScreen(cardLayout,cardPanel);
+
+                    // Add the ClassicModeScreen to the cardPanel
+                    cardPanel.add(classicModeScreen, "ClassicModeScreen");
+
+                    // Switch to the ClassicModeScreen using CardLayout
+                    cardLayout.show(cardPanel, "ClassicModeScreen");
+
+                    revalidate();
+                    repaint();
+                } else {
+                    // Return to the main menu
+                    CardLayout cardLayout1 = (CardLayout) getParent().getLayout();
+                    cardLayout1.show(getParent(), "MAIN_MENU");
+                    revalidate();
+                    repaint();
+                }
             }
             else {
                 lives.getAndDecrement();
@@ -91,7 +129,10 @@ public class ClassicModeScreen extends JPanel {
                 // Check if lives are depleted
                 if (lives.get() <= 0) {
                     JOptionPane.showMessageDialog(this, "Game Over! You have run out of lives.");
-                    cardLayout.show(cardPanel, "MainMenu");
+                    CardLayout cardLayout1 = (CardLayout) getParent().getLayout();
+                    cardLayout1.show(getParent(), "MAIN_MENU");
+                    revalidate();
+                    repaint();
                 }
             }
         });

@@ -9,12 +9,30 @@ import java.util.ArrayList;
 public class LeaderboardScreen extends JPanel {
     private JTable classicLeaderboardTable;
     private JTable frenzyLeaderboardTable;
+    private SoundPlayer clicker = new SoundPlayer();
 
     public LeaderboardScreen() {
-        setLayout(new GridLayout(2, 1));
+        setLayout(new BorderLayout());
+
+        // Create top panel for back button
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JButton backButton = new JButton("Back");
+        topPanel.add(backButton);
+        add(topPanel, BorderLayout.NORTH);
+        backButton.addActionListener(e -> {
+            clicker.playSound("src/Resources/click.wav", false);
+            // Add the main menu card panel to the main menu card panel container
+            CardLayout cardLayout = (CardLayout) getParent().getLayout();
+            cardLayout.show(getParent(), "MAIN_MENU");
+            revalidate();
+            repaint();
+        });
 
         // Read user data from userFile.csv
         ArrayList<UserData> userData = readUserData("userFile.csv");
+
+        // Create panel for leaderboard tables
+        JPanel leaderboardPanel = new JPanel(new GridLayout(2, 1));
 
         // Create classic leaderboard table
         JPanel classicPanel = new JPanel(new BorderLayout());
@@ -24,6 +42,7 @@ public class LeaderboardScreen extends JPanel {
         classicLeaderboardTable = new JTable();
         updateClassicLeaderboard(userData);
         classicPanel.add(new JScrollPane(classicLeaderboardTable), BorderLayout.CENTER);
+        leaderboardPanel.add(classicPanel);
 
         // Create frenzy leaderboard table
         JPanel frenzyPanel = new JPanel(new BorderLayout());
@@ -33,9 +52,14 @@ public class LeaderboardScreen extends JPanel {
         frenzyLeaderboardTable = new JTable();
         updateFrenzyLeaderboard(userData);
         frenzyPanel.add(new JScrollPane(frenzyLeaderboardTable), BorderLayout.CENTER);
+        leaderboardPanel.add(frenzyPanel);
 
-        add(classicPanel);
-        add(frenzyPanel);
+        // Add leaderboard panel to the center
+        add(leaderboardPanel, BorderLayout.CENTER);
+
+        // Set the preferred size of the tables to be equal
+        Dimension tablePreferredSize = classicLeaderboardTable.getPreferredSize();
+        frenzyLeaderboardTable.setPreferredScrollableViewportSize(tablePreferredSize);
     }
 
     // Method to read user data from userFile.csv

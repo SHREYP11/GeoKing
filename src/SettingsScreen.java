@@ -3,7 +3,7 @@ import java.awt.*;
 
 public class SettingsScreen extends JPanel {
     // Static variables for flag mode and music state
-    private static boolean flagMode = false;
+    private static boolean flagMode = true;
     private static boolean musicOn = true; // Assuming music is on by default
 
     public SettingsScreen(CardLayout cardLayout, JPanel cardPanel) {
@@ -35,7 +35,7 @@ public class SettingsScreen extends JPanel {
         musicToggleButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Flag Mode On/Off toggle button
-        JToggleButton flagModeToggleButton = new JToggleButton("Flag Mode On", flagMode);
+        JToggleButton flagModeToggleButton = new JToggleButton("Flag Mode Off", flagMode);
         flagModeToggleButton.addActionListener(e -> {
             flagMode = flagModeToggleButton.isSelected(); // Update the flag mode status based on the button state
             if (flagMode) {

@@ -17,7 +17,7 @@ public class ClassicModeScreen extends JPanel {
         SoundPlayer clicker = new SoundPlayer();
         this.cardLayout = cardLayout;
         this.cardPanel = cardPanel;
-        String countyName = null;
+        String countyName = "";
         levelDatabase levels = new levelDatabase();
         // this is the level selection code
         user currentUser = LoginScreen.getCurrentUser();
@@ -34,7 +34,7 @@ public class ClassicModeScreen extends JPanel {
             adminInputPanel.add(levelChoice);
 
             // Show the dialog
-            int option = JOptionPane.showConfirmDialog(null, adminInputPanel, "Admin Input, Please enter two number, First 1 - 20, Second 1 - 4.", JOptionPane.OK_CANCEL_OPTION);
+            int option = JOptionPane.showConfirmDialog(null, adminInputPanel, "Level 1 - 20, Choice 1 - 4.", JOptionPane.OK_CANCEL_OPTION);
             if (option == JOptionPane.OK_OPTION) {
                 // Parse and retrieve the entered integers
                 try {
@@ -47,12 +47,6 @@ public class ClassicModeScreen extends JPanel {
                     // Handle invalid input
                     JOptionPane.showMessageDialog(null, "Please enter valid integers for level and classic level.");
                 }
-            } else {
-                clicker.playSound("src/Resources/click.wav", false);
-                CardLayout cardLayout1 = (CardLayout) getParent().getLayout();
-                cardLayout1.show(getParent(), "MAIN_MENU");
-                revalidate();
-                repaint();
             }
         }
         else {

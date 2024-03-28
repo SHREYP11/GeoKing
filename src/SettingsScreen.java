@@ -8,14 +8,17 @@ public class SettingsScreen extends JPanel {
 
     public SettingsScreen(CardLayout cardLayout, JPanel cardPanel) {
         setLayout(new BorderLayout());
+        setBackground(new Color(192, 192, 192)); // Set background color for SettingsScreen
 
         JLabel settingsHeader = new JLabel("SETTINGS", SwingConstants.CENTER);
         settingsHeader.setFont(new Font("Arial", Font.BOLD, 24));
+        settingsHeader.setForeground(Color.BLACK); // Set text color
         add(settingsHeader, BorderLayout.NORTH);
 
         // Settings panel for toggle buttons
         JPanel settingsPanel = new JPanel();
         settingsPanel.setLayout(new BoxLayout(settingsPanel, BoxLayout.Y_AXIS));
+        settingsPanel.setBackground(new Color(192, 192, 192)); // Set background color for settingsPanel
 
         // Music On/Off toggle button
         JToggleButton musicToggleButton = new JToggleButton("Music On", musicOn);
@@ -44,7 +47,6 @@ public class SettingsScreen extends JPanel {
             }
         });
         flagModeToggleButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-
         // Adding toggle buttons to the settings panel
         settingsPanel.add(Box.createVerticalGlue());
         settingsPanel.add(musicToggleButton);
@@ -56,8 +58,9 @@ public class SettingsScreen extends JPanel {
 
         // Back button panel
         JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        backButtonPanel.setBackground(new Color(192, 192, 192)); // Set background color for backButtonPanel
         JButton backButton = new JButton("Back");
-        backButton.addActionListener(e -> cardLayout.show(cardPanel, "MAIN_MENU"));
+        backButton.addActionListener(e -> {cardLayout.show(cardPanel, "MAIN_MENU");});
         backButtonPanel.add(backButton);
 
         add(backButtonPanel, BorderLayout.SOUTH);

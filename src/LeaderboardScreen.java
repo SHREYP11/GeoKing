@@ -13,9 +13,11 @@ public class LeaderboardScreen extends JPanel {
 
     public LeaderboardScreen() {
         setLayout(new BorderLayout());
+        setBackground(new Color(192, 192, 192)); // Set background color for LeaderboardScreen
 
         // Create top panel for back button
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        topPanel.setBackground(new Color(192, 192, 192)); // Set background color for topPanel
         JButton backButton = new JButton("Back");
         topPanel.add(backButton);
         add(topPanel, BorderLayout.NORTH);
@@ -33,9 +35,11 @@ public class LeaderboardScreen extends JPanel {
 
         // Create panel for leaderboard tables
         JPanel leaderboardPanel = new JPanel(new GridLayout(2, 1));
+        leaderboardPanel.setBackground(new Color(192, 192, 192)); // Set background color for leaderboardPanel
 
         // Create classic leaderboard table
         JPanel classicPanel = new JPanel(new BorderLayout());
+        classicPanel.setBackground(new Color(192, 192, 192)); // Set background color for classicPanel
         JLabel classicLabel = new JLabel("Classic Leaderboard", SwingConstants.CENTER);
         classicLabel.setFont(new Font(classicLabel.getFont().getName(), Font.PLAIN, 30));
         classicPanel.add(classicLabel, BorderLayout.NORTH);
@@ -46,6 +50,7 @@ public class LeaderboardScreen extends JPanel {
 
         // Create frenzy leaderboard table
         JPanel frenzyPanel = new JPanel(new BorderLayout());
+        frenzyPanel.setBackground(new Color(192, 192, 192)); // Set background color for frenzyPanel
         JLabel frenzyLabel = new JLabel("Frenzy Leaderboard", SwingConstants.CENTER);
         frenzyLabel.setFont(new Font(frenzyLabel.getFont().getName(), Font.PLAIN, 30)); // Set font size
         frenzyPanel.add(frenzyLabel, BorderLayout.NORTH);

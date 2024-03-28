@@ -13,19 +13,53 @@ public class ClassicModeScreen extends JPanel {
     private country Country;
 
     public ClassicModeScreen(CardLayout cardLayout, JPanel cardPanel) {
-
         boolean mode = SettingsScreen.isFlagModeEnabled();
-
+        SoundPlayer clicker = new SoundPlayer();
         this.cardLayout = cardLayout;
         this.cardPanel = cardPanel;
-
+        String countyName = null;
         levelDatabase levels = new levelDatabase();
         // this is the level selection code
         user currentUser = LoginScreen.getCurrentUser();
-        int classicLevel = currentUser.getClassicLevel();
-        Country = levels.selectLevel(classicLevel);
-        String countyName = Country.getName();
+        if (currentUser.getAdmin()) {
+            // Create a panel to hold input components
+            JPanel adminInputPanel = new JPanel(new GridLayout(2, 2));
 
+            // Add labels and text fields for integer input
+            JTextField levelField = new JTextField(5);
+            JTextField levelChoice = new JTextField(5);
+            adminInputPanel.add(new JLabel("Enter Level: "));
+            adminInputPanel.add(levelField);
+            adminInputPanel.add(new JLabel("Enter Level Choice: "));
+            adminInputPanel.add(levelChoice);
+
+            // Show the dialog
+            int option = JOptionPane.showConfirmDialog(null, adminInputPanel, "Admin Input, Please enter two number, First 1 - 20, Second 1 - 4.", JOptionPane.OK_CANCEL_OPTION);
+            if (option == JOptionPane.OK_OPTION) {
+                // Parse and retrieve the entered integers
+                try {
+                    int level = Integer.parseInt(levelField.getText());
+                    int ranLevel = Integer.parseInt(levelChoice.getText());
+                    // Use the entered integers for further processing
+                    Country = levels.adminSelect(level, ranLevel);
+                    countyName = Country.getName();
+                } catch (NumberFormatException e) {
+                    // Handle invalid input
+                    JOptionPane.showMessageDialog(null, "Please enter valid integers for level and classic level.");
+                }
+            } else {
+                clicker.playSound("src/Resources/click.wav", false);
+                CardLayout cardLayout1 = (CardLayout) getParent().getLayout();
+                cardLayout1.show(getParent(), "MAIN_MENU");
+                revalidate();
+                repaint();
+            }
+        }
+        else {
+            int classicLevel = currentUser.getClassicLevel();
+            Country = levels.selectLevel(classicLevel);
+            countyName = Country.getName();
+        }
         setLayout(new BorderLayout());
         setBackground(new Color(192, 192, 192)); // Set background color for ClassicModeScreen
 
@@ -35,6 +69,7 @@ public class ClassicModeScreen extends JPanel {
         // Add Exit Button to top left
         JButton exitButton = new JButton("Exit");
         exitButton.addActionListener(e -> {
+            clicker.playSound("src/Resources/click.wav", false);
             CardLayout cardLayout1 = (CardLayout) getParent().getLayout();
             cardLayout1.show(getParent(), "MAIN_MENU");
             revalidate();
@@ -53,6 +88,7 @@ public class ClassicModeScreen extends JPanel {
         JButton hintButton = new JButton("Hint");
         hintButton.setPreferredSize(new Dimension(80, 30));
         hintButton.addActionListener(event -> {
+            clicker.playSound("src/Resources/click.wav", false);
             JOptionPane.showMessageDialog(this, "This country is in " + Country.getContinent() + ".");
         });
         JPanel hintPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -98,7 +134,10 @@ public class ClassicModeScreen extends JPanel {
         add(centerPanel, BorderLayout.CENTER);
 
         JButton enterGuessButton = new JButton("Enter Guess");
-        enterGuessButton.addActionListener(event -> processGuess());
+        enterGuessButton.addActionListener(event -> {
+            clicker.playSound("src/Resources/click.wav", false);
+            processGuess();
+        });
         add(enterGuessButton, BorderLayout.SOUTH);
     }
 

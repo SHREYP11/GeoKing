@@ -7,6 +7,7 @@ public class SettingsScreen extends JPanel {
     private static boolean musicOn = true; // Assuming music is on by default
 
     public SettingsScreen(CardLayout cardLayout, JPanel cardPanel,SoundPlayer music) {
+        SoundPlayer clicker = new SoundPlayer();
         setLayout(new BorderLayout());
         setBackground(new Color(192, 192, 192)); // Set background color for SettingsScreen
 
@@ -60,7 +61,11 @@ public class SettingsScreen extends JPanel {
         JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         backButtonPanel.setBackground(new Color(192, 192, 192)); // Set background color for backButtonPanel
         JButton backButton = new JButton("Back");
-        backButton.addActionListener(e -> {cardLayout.show(cardPanel, "MAIN_MENU");});
+        backButton.addActionListener(e -> {
+            clicker.playSound("src/Resources/click.wav", false);
+            cardLayout.show(cardPanel, "MAIN_MENU");
+
+        });
         backButtonPanel.add(backButton);
 
         add(backButtonPanel, BorderLayout.SOUTH);

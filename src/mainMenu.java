@@ -5,6 +5,7 @@ class LoginScreen extends JPanel {
 
     public static user currentUser;
     public LoginScreen() {
+        SoundPlayer clicker = new SoundPlayer();
         setBackground(new Color(192, 192, 192));
         setLayout(new BorderLayout(0, 50));
 
@@ -53,7 +54,11 @@ class LoginScreen extends JPanel {
         add(buttonPanel, BorderLayout.SOUTH);
 
         // ActionListener for the Enter button
-        enterButton.addActionListener(e -> performLogin(usernameField));
+        enterButton.addActionListener(e -> {
+            clicker.playSound("src/Resources/click.wav", false);
+            performLogin(usernameField);
+        });
+
 
         // KeyListener for the Enter key press event on the username field
         usernameField.addKeyListener(new KeyAdapter() {
@@ -194,7 +199,7 @@ class MainMenuScreen extends JPanel {
             repaint();
         });
         leaderboardButton.addActionListener(e -> {
-
+            clicker.playSound("src/Resources/click.wav", false);
             LeaderboardScreen leaderboardScreen = new LeaderboardScreen(); // Instantiate LeaderboardScreen
             this.cardPanel.add(leaderboardScreen, "LeaderboardScreen"); // A
             cardLayout.show(cardPanel, "LeaderboardScreen");
@@ -203,7 +208,9 @@ class MainMenuScreen extends JPanel {
             // Switch to the LeaderboardScreen using CardLayout
         });
 
-        settingsButton.addActionListener(e -> this.cardLayout.show(this.cardPanel, "SETTINGS"));
+        settingsButton.addActionListener(e -> {
+            clicker.playSound("src/Resources/click.wav", false);
+            this.cardLayout.show(this.cardPanel, "SETTINGS");});
 
         exitButton.addActionListener(e -> System.exit(0)); // Exit the program
     }

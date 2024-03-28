@@ -21,6 +21,7 @@ public class FrenzyModeScreen extends JPanel {
         boolean mode = SettingsScreen.isFlagModeEnabled();
         this.cardLayout = cardLayout;
         this.cardPanel = cardPanel;
+        SoundPlayer clicker = new SoundPlayer();
 
         levelDatabase levels = new levelDatabase();
         user currentUser = LoginScreen.getCurrentUser();
@@ -36,6 +37,7 @@ public class FrenzyModeScreen extends JPanel {
 
         JButton exitButton = new JButton("Exit");
         exitButton.addActionListener(e -> {
+            clicker.playSound("src/Resources/click.wav", false);
             timer.stop();
             CardLayout cardLayout1 = (CardLayout) getParent().getLayout();
             cardLayout1.show(getParent(), "MAIN_MENU");
@@ -53,6 +55,7 @@ public class FrenzyModeScreen extends JPanel {
         JButton hintButton = new JButton("Hint");
         hintButton.setPreferredSize(new Dimension(80, 30));
         hintButton.addActionListener(event -> {
+            clicker.playSound("src/Resources/click.wav", false);
             JOptionPane.showMessageDialog(this, "This country is in " + Country.getContinent() + ".");
         });
         JPanel hintPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -98,7 +101,10 @@ public class FrenzyModeScreen extends JPanel {
         add(centerPanel, BorderLayout.CENTER);
 
         JButton enterGuessButton = new JButton("Enter Guess");
-        enterGuessButton.addActionListener(event -> processGuess());
+        enterGuessButton.addActionListener(event ->{
+            clicker.playSound("src/Resources/click.wav", false);
+            processGuess();
+        });
         add(enterGuessButton, BorderLayout.SOUTH);
 
         secondsLeft = 30;

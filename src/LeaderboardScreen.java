@@ -12,6 +12,7 @@ public class LeaderboardScreen extends JPanel {
     private SoundPlayer clicker = new SoundPlayer();
 
     public LeaderboardScreen() {
+        SoundPlayer clicker = new SoundPlayer();
         setLayout(new BorderLayout());
         setBackground(new Color(192, 192, 192)); // Set background color for LeaderboardScreen
 

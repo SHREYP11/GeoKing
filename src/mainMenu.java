@@ -26,13 +26,15 @@ class LoginScreen extends JPanel {
         imageLabel.setHorizontalAlignment(SwingConstants.CENTER); // Center the image
         loginPanel.add(imageLabel, BorderLayout.CENTER); // Add image label to the center of loginPanel
 
-        JPanel usernamePanel = new JPanel(new FlowLayout()); // Create a panel for username components
+        JPanel usernamePanel = new JPanel(new BorderLayout()); // Use BorderLayout for usernamePanel
         usernamePanel.setBackground(new Color(192, 192, 192));
-        usernamePanel.add(new JLabel("USERNAME:"));
+        JLabel usernameLabel = new JLabel("USERNAME");
+        usernameLabel.setHorizontalAlignment(JLabel.CENTER); // Center the username label
+        usernamePanel.add(usernameLabel, BorderLayout.NORTH); // Add usernameLabel to the top of usernamePanel
 
         JTextField usernameField = new JTextField();
         usernameField.setPreferredSize(new Dimension(300, 40));
-        usernamePanel.add(usernameField);
+        usernamePanel.add(usernameField, BorderLayout.CENTER); // Add usernameField to the center of usernamePanel
 
         loginPanel.add(usernamePanel, BorderLayout.SOUTH); // Add usernamePanel to the bottom of loginPanel
 
@@ -63,6 +65,7 @@ class LoginScreen extends JPanel {
             }
         });
     }
+
 
     // Method to perform login action
     private void performLogin(JTextField usernameField) {

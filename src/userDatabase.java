@@ -60,7 +60,7 @@ public class userDatabase {
      */
     public user findUser(String name) {
         for (user temp : users) {
-            if (Objects.equals(temp.getName(), name)) {
+            if (Objects.equals(temp.getName().toLowerCase(), name.toLowerCase())) {
                 return temp;
             }
         }

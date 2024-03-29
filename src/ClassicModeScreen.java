@@ -143,7 +143,9 @@ public class ClassicModeScreen extends JPanel {
 
         if (Objects.equals(guess.toLowerCase(), countyName.toLowerCase())) {
             // Correct guess
-            currentUser.incrementClassicLevel();
+            if (currentUser.getClassicLevel() < 20) {
+                currentUser.incrementClassicLevel();
+            }
             userDatabase updateData = new userDatabase();
             updateData.findUser(currentUser.getName()).incrementClassicLevel();
             updateData.exportDatabase();

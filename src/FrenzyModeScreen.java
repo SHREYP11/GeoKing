@@ -130,7 +130,9 @@ public class FrenzyModeScreen extends JPanel {
 
         if (Objects.equals(guess.toLowerCase(), countyName.toLowerCase())) {
             // Correct guess
-            currentUser.incrementFrenzyLevel();
+            if(currentUser.getFrenzyLevel() < 20) {
+                currentUser.incrementFrenzyLevel();
+            }
             userDatabase updateData = new userDatabase();
             updateData.findUser(currentUser.getName()).incrementFrenzyLevel();
             updateData.exportDatabase();

@@ -188,7 +188,7 @@ public class ClassicModeScreen extends JPanel {
             inputTextField.setText("");
 
             // Update lives label to reflect the new value
-            JLabel livesLabel = (JLabel)((JPanel)getComponent(0)).getComponent(1); // Assuming lives label is at index 1 of the top panel
+            JLabel livesLabel = (JLabel)((JPanel)getComponent(0)).getComponent(1);
             livesLabel.setText("Lives: " + lives);
 
             // Check if lives are depleted

@@ -126,7 +126,6 @@ public class ClassicModeScreen extends JPanel {
         centerPanel.add(inputTextField, BorderLayout.SOUTH);
 
         add(centerPanel, BorderLayout.CENTER);
-
         JButton enterGuessButton = new JButton("Enter Guess");
         enterGuessButton.addActionListener(event -> {
             clicker.playSound("src/Resources/click.wav", false);

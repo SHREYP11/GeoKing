@@ -1,5 +1,8 @@
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
+
 class GUIMainMenuScreen extends JPanel {
     private CardLayout cardLayout;
     private JPanel cardPanel;
@@ -28,6 +31,7 @@ class GUIMainMenuScreen extends JPanel {
         JButton leaderboardButton = new JButton("LEADERBOARD");
         JButton settingsButton = new JButton("SETTINGS");
         JButton exitButton = new JButton("EXIT");
+        JButton tutorialButton = new JButton("TUTORIAL");
 
         Dimension buttonSize = new Dimension(800, 100);
         classicModeButton.setPreferredSize(buttonSize);
@@ -35,12 +39,14 @@ class GUIMainMenuScreen extends JPanel {
         leaderboardButton.setPreferredSize(buttonSize);
         settingsButton.setPreferredSize(buttonSize);
         exitButton.setPreferredSize(new Dimension(200,25));
+        tutorialButton.setPreferredSize(buttonSize);
 
         classicModeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         frenzyModeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         leaderboardButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         settingsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        tutorialButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
@@ -54,10 +60,13 @@ class GUIMainMenuScreen extends JPanel {
         buttonPanel.add(Box.createVerticalGlue());
         buttonPanel.add(settingsButton);
         buttonPanel.add(Box.createVerticalGlue());
+        buttonPanel.add(tutorialButton);
+        buttonPanel.add(Box.createVerticalGlue());
         buttonPanel.add(exitButton);
         buttonPanel.add(Box.createVerticalGlue());
 
         add(buttonPanel, BorderLayout.CENTER);
+
         frenzyModeButton.addActionListener(e -> {
             clicker.playSound("src/Resources/click.wav", false);
             Component[] components = cardPanel.getComponents();
@@ -66,62 +75,85 @@ class GUIMainMenuScreen extends JPanel {
                     cardPanel.remove(component);
                 }
             }
-            GUIFrenzyModeScreen GUIFrenzyModeScreen = new GUIFrenzyModeScreen(cardLayout,cardPanel);
-
-            // Add the ClassicModeScreen to the cardPanel
+            GUIFrenzyModeScreen GUIFrenzyModeScreen = new GUIFrenzyModeScreen(cardLayout, cardPanel);
             cardPanel.add(GUIFrenzyModeScreen, "FrenzyModeScreen");
-
-            // Switch to the ClassicModeScreen using CardLayout
             cardLayout.show(cardPanel, "FrenzyModeScreen");
-
             revalidate();
             repaint();
-
         });
+
         classicModeButton.addActionListener(e -> {
             clicker.playSound("src/Resources/click.wav", false);
-            // Create a new instance of ClassicModeScreen
             Component[] components = cardPanel.getComponents();
             for (Component component : components) {
                 if (component instanceof GUIClassicModeScreen) {
                     cardPanel.remove(component);
                 }
             }
-            GUIClassicModeScreen GUIClassicModeScreen = new GUIClassicModeScreen(cardLayout,cardPanel);
-
-            // Add the ClassicModeScreen to the cardPanel
-            this.cardPanel.add(GUIClassicModeScreen, "ClassicModeScreen");
-
-            // Switch to the ClassicModeScreen using CardLayout
-            this.cardLayout.show(cardPanel, "ClassicModeScreen");
-
+            GUIClassicModeScreen GUIClassicModeScreen = new GUIClassicModeScreen(cardLayout, cardPanel);
+            cardPanel.add(GUIClassicModeScreen, "ClassicModeScreen");
+            cardLayout.show(cardPanel, "ClassicModeScreen");
             revalidate();
             repaint();
         });
+
         leaderboardButton.addActionListener(e -> {
             clicker.playSound("src/Resources/click.wav", false);
-            GUILeaderboardScreen GUILeaderboardScreen = new GUILeaderboardScreen(); // Instantiate LeaderboardScreen
-            this.cardPanel.add(GUILeaderboardScreen, "LeaderboardScreen"); // A
+            GUILeaderboardScreen GUILeaderboardScreen = new GUILeaderboardScreen();
+            cardPanel.add(GUILeaderboardScreen, "LeaderboardScreen");
             cardLayout.show(cardPanel, "LeaderboardScreen");
             revalidate();
             repaint();
-            // Switch to the LeaderboardScreen using CardLayout
         });
 
         settingsButton.addActionListener(e -> {
             clicker.playSound("src/Resources/click.wav", false);
-            this.cardLayout.show(this.cardPanel, "SETTINGS");});
+            cardLayout.show(cardPanel, "SETTINGS");
+        });
 
-        exitButton.addActionListener(e -> System.exit(0)); // Exit the program
+        tutorialButton.addActionListener(e -> {
+            clicker.playSound("src/Resources/click.wav", false);
+            SwingUtilities.invokeLater(() -> {
+                // Create JFrame
+                JFrame frame = new JFrame("Image Display");
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setSize(900, 500);
+                frame.setLocationRelativeTo(null); // Center the window
+                // Create JPanel
+                JPanel panel = new JPanel() {
+                    @Override
+                    protected void paintComponent(Graphics g) {
+                        super.paintComponent(g);
+                        ImageIcon imageIcon = new ImageIcon("src/Resources/Tutorial.png");
+                        Image image = imageIcon.getImage();
+                        g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+                    }
+                };
+                // Create OK button
+                JButton okButton = new JButton("OK");
+                okButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        frame.dispose(); // Close the window
+                    }
+                });
+                // Add components to frame
+                frame.add(panel, BorderLayout.CENTER);
+                frame.add(okButton, BorderLayout.SOUTH);
+                frame.setVisible(true);
+            });
+        });
+        // Exit Button
+        exitButton.addActionListener(e -> System.exit(0));
+
+        setOpaque(false);
     }
 
     public void setCardLayout(CardLayout cardLayout, JPanel cardPanel) {
     }
-
-    public SoundPlayer getSoundPlayer(){
+    public SoundPlayer getSoundPlayer() {
         return soundPlayer;
     }
-
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

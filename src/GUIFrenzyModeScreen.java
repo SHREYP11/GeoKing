@@ -6,6 +6,28 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Objects;
 
+/**
+ * Represents the frenzy mode screen of the GeoKing application, this class contains the entire GUI for the classic
+ * game mode, it calls Level database to select a random country from the users current level.
+ * As well, it handles checking the guess and incrementing the users level if the guess is correct. This is before sending
+ * them to the next level
+ * Usage Example:
+ * <pre>
+ * {@code
+ *  GUIFrenzyModeScreen GUIFrenzyModeScreen = new GUIFrenzyModeScreen(cardLayout,cardPanel);
+ *   // Add the ClassicModeScreen to the cardPanel
+ *   cardPanel.add(GUIFrenzyModeScreen, "FrenzyModeScreen");
+ *   // Switch to the ClassicModeScreen using CardLayout
+ *   cardLayout.show(cardPanel, "FrenzyModeScreen");
+ *   revalidate();
+ *   repaint();
+ *  }
+ * </pre>
+ *
+ *
+ * @version 1.0
+ * @author Colin
+ */
 public class GUIFrenzyModeScreen extends JPanel {
     private CardLayout cardLayout;
     private JPanel cardPanel;
@@ -16,6 +38,13 @@ public class GUIFrenzyModeScreen extends JPanel {
 
     private country Country;
 
+    /**
+     * Constructs a GUIFrenzyModeScreen with the specified CardLayout and JPanel.
+     * This handles all the panels and buttons for the frenzy mode screen
+     * @param cardLayout The CardLayout to use for managing screens.
+     * @param cardPanel  The JPanel to which this screen is added, This is used for the new instance
+     *                   if the user gets the correct guess.
+     */
     public GUIFrenzyModeScreen(CardLayout cardLayout, JPanel cardPanel) {
         boolean mode = GUISettingsScreen.isFlagModeEnabled();
         this.cardLayout = cardLayout;
@@ -83,7 +112,8 @@ public class GUIFrenzyModeScreen extends JPanel {
         inputTextField.setPreferredSize(new Dimension(inputTextField.getPreferredSize().width, 40));
         inputTextField.addKeyListener(new KeyListener() {
             @Override
-            public void keyTyped(KeyEvent e) {}
+            public void keyTyped(KeyEvent e) {
+            }
 
             @Override
             public void keyPressed(KeyEvent e) {
@@ -93,14 +123,15 @@ public class GUIFrenzyModeScreen extends JPanel {
             }
 
             @Override
-            public void keyReleased(KeyEvent e) {}
+            public void keyReleased(KeyEvent e) {
+            }
         });
         centerPanel.add(inputTextField, BorderLayout.SOUTH);
 
         add(centerPanel, BorderLayout.CENTER);
 
         JButton enterGuessButton = new JButton("Enter Guess");
-        enterGuessButton.addActionListener(event ->{
+        enterGuessButton.addActionListener(event -> {
             clicker.playSound("src/Resources/click.wav", false);
             processGuess();
         });
@@ -122,6 +153,10 @@ public class GUIFrenzyModeScreen extends JPanel {
         timer.start();
     }
 
+    /**
+     * Processes the user's guess, if the guess is incorrect and the user has time left it tells them and lets them guess again
+     * If the user's guess is correct it gives the option for the user to continue to the next level or return to main menu
+     */
     private void processGuess() {
         String guess = inputTextField.getText().toLowerCase();
         user currentUser = GUILoginScreen.getCurrentUser();
@@ -129,7 +164,7 @@ public class GUIFrenzyModeScreen extends JPanel {
 
         if (Objects.equals(guess.toLowerCase(), countyName.toLowerCase())) {
             // Correct guess
-            if(currentUser.getFrenzyLevel() < 20) {
+            if (currentUser.getFrenzyLevel() < 20) {
                 currentUser.incrementFrenzyLevel();
             }
             userDatabase updateData = new userDatabase();
@@ -171,6 +206,9 @@ public class GUIFrenzyModeScreen extends JPanel {
         }
     }
 
+    /**
+     * When the timer hits 0 a message is displayed and the user is sent back to the main menu
+     */
     private void gameOver() {
         JOptionPane.showMessageDialog(this, "Time's up! Game over.");
         timerLabel.setText("Time's Up!");

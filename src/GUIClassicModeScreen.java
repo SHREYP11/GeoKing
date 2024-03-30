@@ -5,13 +5,42 @@ import java.awt.event.KeyListener;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Represents the classic mode screen of the GeoKing application, this class contains the entire GUI for the classic
+ * game mode, it calls Level database to select a random country from the users current level.
+ * As well, it handles checking the guess and incrementing the users level if the guess is correct. This is before sending
+ * them to the next level
+ *
+ * Usage Example:
+ * <pre>
+ * {@code
+ *  GUIClassicModeScreen GUIClassicModeScreen = new GUIClassicModeScreen(cardLayout,cardPanel);
+ *  // Add the ClassicModeScreen to the cardPanel
+ *  this.cardPanel.add(GUIClassicModeScreen, "ClassicModeScreen");
+ *  // Switch to the ClassicModeScreen using CardLayout
+ *  this.cardLayout.show(cardPanel, "ClassicModeScreen");
+ *  revalidate();
+ *   repaint();
+ *  }
+ * </pre>
+ *
+ *
+ * @version 1.0
+ * @author Colin
+ */
 public class GUIClassicModeScreen extends JPanel {
     private CardLayout cardLayout;
     private JPanel cardPanel;
     private JTextField inputTextField;
-
     private country Country;
 
+    /**
+     * Constructs a GUIClassicModeScreen with the specified CardLayout and JPanel.
+     * This manages all the windows as well as buttons for the classic mode screen.
+     * @param cardLayout The CardLayout to use for managing screens.
+     * @param cardPanel  The JPanel to which this screen is added if the user gets the guess
+     *                   correct.
+     */
     public GUIClassicModeScreen(CardLayout cardLayout, JPanel cardPanel) {
         boolean mode = GUISettingsScreen.isFlagModeEnabled();
         SoundPlayer clicker = new SoundPlayer();
@@ -48,8 +77,7 @@ public class GUIClassicModeScreen extends JPanel {
                     JOptionPane.showMessageDialog(null, "Please enter valid integers for level and classic level.");
                 }
             }
-        }
-        else {
+        } else {
             int classicLevel = currentUser.getClassicLevel();
             Country = levels.selectLevel(classicLevel);
             countyName = Country.getName();
@@ -109,9 +137,11 @@ public class GUIClassicModeScreen extends JPanel {
         inputTextField = new JTextField();
         inputTextField.setHorizontalAlignment(JTextField.CENTER);
         inputTextField.setPreferredSize(new Dimension(inputTextField.getPreferredSize().width, 40)); // Set text field height
+        // This is the input for the enter key to make it do the same as the enter button
         inputTextField.addKeyListener(new KeyListener() {
             @Override
-            public void keyTyped(KeyEvent e) {}
+            public void keyTyped(KeyEvent e) {
+            }
 
             @Override
             public void keyPressed(KeyEvent e) {
@@ -121,7 +151,8 @@ public class GUIClassicModeScreen extends JPanel {
             }
 
             @Override
-            public void keyReleased(KeyEvent e) {}
+            public void keyReleased(KeyEvent e) {
+            }
         });
         centerPanel.add(inputTextField, BorderLayout.SOUTH);
 
@@ -134,6 +165,11 @@ public class GUIClassicModeScreen extends JPanel {
         add(enterGuessButton, BorderLayout.SOUTH);
     }
 
+    /**
+     * Processes the user's guess, if the guess is incorrect and the user has lives left it does nothing.
+     * If the user's guess is correct it gives the option for the user to continue to the next level or return to main menu
+     * IF the user is out of live it returns the user to the main menu.
+     */
     private void processGuess() {
         String guess = inputTextField.getText();
         user currentUser = GUILoginScreen.getCurrentUser();
@@ -166,7 +202,7 @@ public class GUIClassicModeScreen extends JPanel {
                         cardPanel.remove(component);
                     }
                 }
-                GUIClassicModeScreen GUIClassicModeScreen = new GUIClassicModeScreen(cardLayout,cardPanel);
+                GUIClassicModeScreen GUIClassicModeScreen = new GUIClassicModeScreen(cardLayout, cardPanel);
 
                 // Add the ClassicModeScreen to the cardPanel
                 cardPanel.add(GUIClassicModeScreen, "ClassicModeScreen");
@@ -190,7 +226,7 @@ public class GUIClassicModeScreen extends JPanel {
             inputTextField.setText("");
 
             // Update lives label to reflect the new value
-            JLabel livesLabel = (JLabel)((JPanel)getComponent(0)).getComponent(1); // Assuming lives label is at index 1 of the top panel
+            JLabel livesLabel = (JLabel) ((JPanel) getComponent(0)).getComponent(1); // Assuming lives label is at index 1 of the top panel
             livesLabel.setText("Lives: " + lives);
 
             // Check if lives are depleted

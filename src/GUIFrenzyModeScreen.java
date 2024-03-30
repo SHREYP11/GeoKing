@@ -6,7 +6,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Objects;
 
-public class FrenzyModeScreen extends JPanel {
+public class GUIFrenzyModeScreen extends JPanel {
     private CardLayout cardLayout;
     private JPanel cardPanel;
     private JTextField inputTextField;
@@ -16,7 +16,7 @@ public class FrenzyModeScreen extends JPanel {
 
     private country Country;
 
-    public FrenzyModeScreen(CardLayout cardLayout, JPanel cardPanel) {
+    public GUIFrenzyModeScreen(CardLayout cardLayout, JPanel cardPanel) {
         boolean mode = GUISettingsScreen.isFlagModeEnabled();
         this.cardLayout = cardLayout;
         this.cardPanel = cardPanel;
@@ -147,12 +147,12 @@ public class FrenzyModeScreen extends JPanel {
             if (option == JOptionPane.YES_OPTION) {
                 Component[] components = cardPanel.getComponents();
                 for (Component component : components) {
-                    if (component instanceof FrenzyModeScreen) {
+                    if (component instanceof GUIFrenzyModeScreen) {
                         cardPanel.remove(component);
                     }
                 }
-                FrenzyModeScreen frenzyModeScreen = new FrenzyModeScreen(cardLayout, cardPanel);
-                cardPanel.add(frenzyModeScreen, "FrenzyModeScreen");
+                GUIFrenzyModeScreen GUIFrenzyModeScreen = new GUIFrenzyModeScreen(cardLayout, cardPanel);
+                cardPanel.add(GUIFrenzyModeScreen, "FrenzyModeScreen");
                 cardLayout.show(cardPanel, "FrenzyModeScreen");
 
                 revalidate();

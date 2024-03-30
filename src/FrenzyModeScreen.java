@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class FrenzyModeScreen extends JPanel {
     private CardLayout cardLayout;
@@ -18,13 +17,13 @@ public class FrenzyModeScreen extends JPanel {
     private country Country;
 
     public FrenzyModeScreen(CardLayout cardLayout, JPanel cardPanel) {
-        boolean mode = SettingsScreen.isFlagModeEnabled();
+        boolean mode = GUISettingsScreen.isFlagModeEnabled();
         this.cardLayout = cardLayout;
         this.cardPanel = cardPanel;
         SoundPlayer clicker = new SoundPlayer();
 
         levelDatabase levels = new levelDatabase();
-        user currentUser = LoginScreen.getCurrentUser();
+        user currentUser = GUILoginScreen.getCurrentUser();
         int frenzyLevel = currentUser.getFrenzyLevel();
         Country = levels.selectLevel(frenzyLevel);
         String countyName = Country.getName();
@@ -125,7 +124,7 @@ public class FrenzyModeScreen extends JPanel {
 
     private void processGuess() {
         String guess = inputTextField.getText().toLowerCase();
-        user currentUser = LoginScreen.getCurrentUser();
+        user currentUser = GUILoginScreen.getCurrentUser();
         String countyName = Country.getName();
 
         if (Objects.equals(guess.toLowerCase(), countyName.toLowerCase())) {

@@ -6,12 +6,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class LeaderboardScreen extends JPanel {
+public class GUILeaderboardScreen extends JPanel {
     private JTable classicLeaderboardTable;
     private JTable frenzyLeaderboardTable;
     private SoundPlayer clicker = new SoundPlayer();
 
-    public LeaderboardScreen() {
+    public GUILeaderboardScreen() {
         SoundPlayer clicker = new SoundPlayer();
         setLayout(new BorderLayout());
         setBackground(new Color(192, 192, 192)); // Set background color for LeaderboardScreen

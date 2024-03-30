@@ -5,22 +5,22 @@ import java.awt.event.KeyListener;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class ClassicModeScreen extends JPanel {
+public class GUIClassicModeScreen extends JPanel {
     private CardLayout cardLayout;
     private JPanel cardPanel;
     private JTextField inputTextField;
 
     private country Country;
 
-    public ClassicModeScreen(CardLayout cardLayout, JPanel cardPanel) {
-        boolean mode = SettingsScreen.isFlagModeEnabled();
+    public GUIClassicModeScreen(CardLayout cardLayout, JPanel cardPanel) {
+        boolean mode = GUISettingsScreen.isFlagModeEnabled();
         SoundPlayer clicker = new SoundPlayer();
         this.cardLayout = cardLayout;
         this.cardPanel = cardPanel;
         String countyName = "";
         levelDatabase levels = new levelDatabase();
         // this is the level selection code
-        user currentUser = LoginScreen.getCurrentUser();
+        user currentUser = GUILoginScreen.getCurrentUser();
         if (currentUser.getAdmin()) {
             // Create a panel to hold input components
             JPanel adminInputPanel = new JPanel(new GridLayout(2, 2));
@@ -136,7 +136,7 @@ public class ClassicModeScreen extends JPanel {
 
     private void processGuess() {
         String guess = inputTextField.getText();
-        user currentUser = LoginScreen.getCurrentUser();
+        user currentUser = GUILoginScreen.getCurrentUser();
         String countyName = Country.getName();
 
         AtomicInteger lives = new AtomicInteger(5);
@@ -162,14 +162,14 @@ public class ClassicModeScreen extends JPanel {
                 // Proceed to the next level
                 Component[] components = cardPanel.getComponents();
                 for (Component component : components) {
-                    if (component instanceof ClassicModeScreen) {
+                    if (component instanceof GUIClassicModeScreen) {
                         cardPanel.remove(component);
                     }
                 }
-                ClassicModeScreen classicModeScreen = new ClassicModeScreen(cardLayout,cardPanel);
+                GUIClassicModeScreen GUIClassicModeScreen = new GUIClassicModeScreen(cardLayout,cardPanel);
 
                 // Add the ClassicModeScreen to the cardPanel
-                cardPanel.add(classicModeScreen, "ClassicModeScreen");
+                cardPanel.add(GUIClassicModeScreen, "ClassicModeScreen");
 
                 // Switch to the ClassicModeScreen using CardLayout
                 cardLayout.show(cardPanel, "ClassicModeScreen");

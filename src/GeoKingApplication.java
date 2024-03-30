@@ -16,16 +16,16 @@ public class GeoKingApplication {
         CardLayout cardLayout = new CardLayout();
         JPanel cardPanel = new JPanel(cardLayout);
 
-        LoginScreen loginScreen = new LoginScreen();
-        loginScreen.setCardLayout(cardLayout, cardPanel);
-        cardPanel.add(loginScreen, "LOGIN");
+        GUILoginScreen GUILoginScreen = new GUILoginScreen();
+        GUILoginScreen.setCardLayout(cardLayout, cardPanel);
+        cardPanel.add(GUILoginScreen, "LOGIN");
 
-        MainMenuScreen mainMenuScreen = new MainMenuScreen(cardLayout, cardPanel);
-        mainMenuScreen.setCardLayout(cardLayout, cardPanel);
-        cardPanel.add(mainMenuScreen, "MAIN_MENU");
+        GUIMainMenuScreen GUIMainMenuScreen = new GUIMainMenuScreen(cardLayout, cardPanel);
+        GUIMainMenuScreen.setCardLayout(cardLayout, cardPanel);
+        cardPanel.add(GUIMainMenuScreen, "MAIN_MENU");
 
-        SettingsScreen settingsScreen = new SettingsScreen(cardLayout, cardPanel, mainMenuScreen.getSoundPlayer());
-        cardPanel.add(settingsScreen, "SETTINGS");
+        GUISettingsScreen GUISettingsScreen = new GUISettingsScreen(cardLayout, cardPanel, GUIMainMenuScreen.getSoundPlayer());
+        cardPanel.add(GUISettingsScreen, "SETTINGS");
 
         cardLayout.show(cardPanel, "LOGIN");
 

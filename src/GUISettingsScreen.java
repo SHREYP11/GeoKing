@@ -1,12 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class SettingsScreen extends JPanel {
+public class GUISettingsScreen extends JPanel {
     // Static variables for flag mode and music state
     private static boolean flagMode = true;
     private static boolean musicOn = true; // Assuming music is on by default
 
-    public SettingsScreen(CardLayout cardLayout, JPanel cardPanel,SoundPlayer music) {
+    public GUISettingsScreen(CardLayout cardLayout, JPanel cardPanel, SoundPlayer music) {
         SoundPlayer clicker = new SoundPlayer();
         setLayout(new BorderLayout());
         setBackground(new Color(192, 192, 192)); // Set background color for SettingsScreen

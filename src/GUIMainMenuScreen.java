@@ -3,6 +3,23 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
+/**
+ * The {@code GUIMainMenuScreen} class represents a Swing GUI panel that displays
+ * the main menu screen of the game. It provides functionality to navigate to different game modes, the leaderboard,
+ * settings, tutorial, and exit the game.
+ * Example usage:
+ * <pre>{@code
+ *  GUIMainMenuScreen GUIMainMenuScreen = new GUIMainMenuScreen(cardLayout, cardPanel);
+ *  GUIMainMenuScreen.setCardLayout(cardLayout, cardPanel);
+ *  cardPanel.add(GUIMainMenuScreen, "MAIN_MENU");
+ *  GUISettingsScreen GUISettingsScreen = new GUISettingsScreen(cardLayout, cardPanel, GUIMainMenuScreen.getSoundPlayer());
+ *  cardPanel.add(GUISettingsScreen, "SETTINGS");
+ *  cardLayout.show(cardPanel, "LOGIN");
+ * frame.add(cardPanel);
+ * frame.setVisible(true);
+ * @author Sherry
+ * @version 1.0
+ */
 class GUIMainMenuScreen extends JPanel {
     private CardLayout cardLayout;
     private JPanel cardPanel;
@@ -10,6 +27,11 @@ class GUIMainMenuScreen extends JPanel {
     private SoundPlayer clicker = new SoundPlayer();
     private Boolean sound = GUISettingsScreen.isMusicOn();
 
+    /**
+     * Constructs a new GUIMainMenuScreen panel, This handles all the inputs from buttons and hot keys as well.
+     * @param cardLayout the ardLayout manager used for switching between panels
+     * @param cardPanel  the parent panel containing all card panels
+     */
     public GUIMainMenuScreen(CardLayout cardLayout, JPanel cardPanel) {
         this.cardLayout = cardLayout;
         this.cardPanel = cardPanel;
@@ -149,8 +171,19 @@ class GUIMainMenuScreen extends JPanel {
         setOpaque(false);
     }
 
+    /**
+     * Sets the CardLayout manager and parent panel for switching between panels.
+     * @param cardLayout the CardLayout manager
+     * @param cardPanel  the parent panel containing all card panels
+     */
     public void setCardLayout(CardLayout cardLayout, JPanel cardPanel) {
+        this.cardLayout = cardLayout;
+        this.cardPanel = cardPanel;
     }
+
+    /**
+     * @return the sound player object
+     */
     public SoundPlayer getSoundPlayer() {
         return soundPlayer;
     }

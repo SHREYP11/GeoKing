@@ -29,12 +29,19 @@ import java.util.Objects;
  * @author Colin
  */
 public class GUIFrenzyModeScreen extends JPanel {
+    /**This is the layout of the cards */
     private CardLayout cardLayout;
+    /** This is what stores all the cards for the gui*/
     private JPanel cardPanel;
+    /** This is the users input for the guess*/
     private JTextField inputTextField;
+    /** The timer*/
     private Timer timer;
+    /** */
     private JLabel timerLabel;
+    /** How many seconds till the game ends */
     private int secondsLeft;
+    /** THe current country */
 
     private country Country;
 

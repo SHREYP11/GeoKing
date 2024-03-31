@@ -6,13 +6,40 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * The {@code GUILeaderboardScreen} class represents a Swing GUI panel that displays
+ * leaderboard data for classic and frenzy modes of a game.
+ * <p>
+ * It provides functionality to read user data from a CSV file, update the classic
+ * and frenzy leaderboard tables, and display them in a graphical user interface.
+ * </p>
+ * <p>
+ * Example usage:
+ * <pre>{@code
+ *   GUILeaderboardScreen GUILeaderboardScreen = new GUILeaderboardScreen();
+ *   cardPanel.add(GUILeaderboardScreen, "LeaderboardScreen");
+ *   cardLayout.show(cardPanel, "LeaderboardScreen");
+ *   revalidate();
+ *   repaint();
+ * }</pre>
+ * </p>
+ *
+ * @author Vlad
+ * @version 1.0
+ */
 public class GUILeaderboardScreen extends JPanel {
+    /** THis is the table for classic */
     private JTable classicLeaderboardTable;
+    /** This is the table for frenzy*/
     private JTable frenzyLeaderboardTable;
+    /** This is the soundplayer*/
     private SoundPlayer clicker = new SoundPlayer();
 
+    /**
+     * Constructs a new {@code GUILeaderboardScreen} panel.
+     * Initializes the GUI components and layout.
+     */
     public GUILeaderboardScreen() {
-        SoundPlayer clicker = new SoundPlayer();
         setLayout(new BorderLayout());
         setBackground(new Color(192, 192, 192)); // Set background color for LeaderboardScreen
 
@@ -68,7 +95,12 @@ public class GUILeaderboardScreen extends JPanel {
         frenzyLeaderboardTable.setPreferredScrollableViewportSize(tablePreferredSize);
     }
 
-    // Method to read user data from userFile.csv
+    /**
+     * Reads user data from a CSV file.
+     *
+     * @param filename the name of the CSV file containing user data
+     * @return an {@code ArrayList} containing {@code UserData} objects parsed from the file
+     */
     private ArrayList<UserData> readUserData(String filename) {
         ArrayList<UserData> userData = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
@@ -87,7 +119,11 @@ public class GUILeaderboardScreen extends JPanel {
         return userData;
     }
 
-    // Method to update classic leaderboard table
+    /**
+     * Updates the classic leaderboard table with the provided user data.
+     *
+     * @param userData an {@code ArrayList} of {@code UserData} objects representing user data
+     */
     private void updateClassicLeaderboard(ArrayList<UserData> userData) {
         // Sort userData based on classicLevel in descending order
         userData.sort((a, b) -> Integer.compare(b.getClassicLevel(), a.getClassicLevel()));
@@ -101,7 +137,11 @@ public class GUILeaderboardScreen extends JPanel {
         classicLeaderboardTable.setModel(model);
     }
 
-    // Method to update frenzy leaderboard table
+    /**
+     * Updates the frenzy leaderboard table with the provided user data.
+     *
+     * @param userData an {@code ArrayList} of {@code UserData} objects representing user data
+     */
     private void updateFrenzyLeaderboard(ArrayList<UserData> userData) {
         // Sort userData based on frenzyLevel in descending order
         userData.sort((a, b) -> Integer.compare(b.getFrenzyLevel(), a.getFrenzyLevel()));
@@ -115,26 +155,44 @@ public class GUILeaderboardScreen extends JPanel {
         frenzyLeaderboardTable.setModel(model);
     }
 
-    // UserData class to hold user data
+    /**
+     * Represents user data consisting of a name, classic level, and frenzy level.
+     */
     private static class UserData {
         private String name;
         private int classicLevel;
         private int frenzyLevel;
 
+        /**
+         * Constructs a new {@code UserData} object with the specified attributes.
+         *
+         * @param name         the user's name
+         * @param classicLevel the user's level in classic mode
+         * @param frenzyLevel  the user's level in frenzy mode
+         */
         public UserData(String name, int classicLevel, int frenzyLevel) {
             this.name = name;
             this.classicLevel = classicLevel;
             this.frenzyLevel = frenzyLevel;
         }
 
+        /**
+         * @return the user's name
+         */
         public String getName() {
             return name;
         }
 
+        /**
+         * @return the user's level in classic mode
+         */
         public int getClassicLevel() {
             return classicLevel;
         }
 
+        /**
+         * @return the user's level in frenzy mode
+         */
         public int getFrenzyLevel() {
             return frenzyLevel;
         }

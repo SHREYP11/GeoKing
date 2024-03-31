@@ -1,9 +1,40 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+
+/**
+ * The GUILoginScreen class represents a Swing GUI panel that provides
+ * a login interface for the game.
+ * It allows users to enter their username and login to the game. If the username
+ * does not exist, a new user is created.
+ * <p>
+ * Example usage:
+ * <pre>{@code
+ *    GUILoginScreen GUILoginScreen = new GUILoginScreen();
+ *    GUILoginScreen.setCardLayout(cardLayout, cardPanel);
+ *    cardPanel.add(GUILoginScreen, "LOGIN");
+ *    GUIMainMenuScreen GUIMainMenuScreen = new GUIMainMenuScreen(cardLayout, cardPanel);
+ *    GUIMainMenuScreen.setCardLayout(cardLayout, cardPanel);
+ *    cardPanel.add(GUIMainMenuScreen, "MAIN_MENU");
+ *    GUISettingsScreen GUISettingsScreen = new GUISettingsScreen(cardLayout, cardPanel, GUIMainMenuScreen.getSoundPlayer());
+ *    cardPanel.add(GUISettingsScreen, "SETTINGS");
+ *    cardLayout.show(cardPanel, "LOGIN");
+ *    frame.add(cardPanel);
+ *    frame.setVisible(true);
+ * }</pre>
+ * </p>
+ *
+ * @author Sherry
+ * @version 1.0
+ */
 class GUILoginScreen extends JPanel {
 
+    /** The currently logged-in user. */
     public static user currentUser;
+
+    /**
+     * Constructs a new GUILoginScreen panel and manages all button inputs as well as hotkeys.
+     */
     public GUILoginScreen() {
         SoundPlayer clicker = new SoundPlayer();
         setBackground(new Color(192, 192, 192));
@@ -19,25 +50,24 @@ class GUILoginScreen extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         containerPanel.setBackground(new Color(192, 192, 192));
 
-        JPanel loginPanel = new JPanel(new BorderLayout()); // Use BorderLayout for loginPanel
+        JPanel loginPanel = new JPanel(new BorderLayout());
         loginPanel.setBackground(new Color(192, 192, 192));
 
-        // Create a label for the image
         JLabel imageLabel = new JLabel(new ImageIcon("src/Resources/logo.png"));
-        imageLabel.setHorizontalAlignment(SwingConstants.CENTER); // Center the image
-        loginPanel.add(imageLabel, BorderLayout.CENTER); // Add image label to the center of loginPanel
+        imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        loginPanel.add(imageLabel, BorderLayout.CENTER);
 
-        JPanel usernamePanel = new JPanel(new BorderLayout()); // Use BorderLayout for usernamePanel
+        JPanel usernamePanel = new JPanel(new BorderLayout());
         usernamePanel.setBackground(new Color(192, 192, 192));
         JLabel usernameLabel = new JLabel("USERNAME");
-        usernameLabel.setHorizontalAlignment(JLabel.CENTER); // Center the username label
-        usernamePanel.add(usernameLabel, BorderLayout.NORTH); // Add usernameLabel to the top of usernamePanel
+        usernameLabel.setHorizontalAlignment(JLabel.CENTER);
+        usernamePanel.add(usernameLabel, BorderLayout.NORTH);
 
         JTextField usernameField = new JTextField();
         usernameField.setPreferredSize(new Dimension(300, 40));
-        usernamePanel.add(usernameField, BorderLayout.CENTER); // Add usernameField to the center of usernamePanel
+        usernamePanel.add(usernameField, BorderLayout.CENTER);
 
-        loginPanel.add(usernamePanel, BorderLayout.SOUTH); // Add usernamePanel to the bottom of loginPanel
+        loginPanel.add(usernamePanel, BorderLayout.SOUTH);
 
         containerPanel.add(loginPanel, gbc);
 
@@ -59,7 +89,6 @@ class GUILoginScreen extends JPanel {
             performLogin(usernameField);
         });
 
-
         // KeyListener for the Enter key press event on the username field
         usernameField.addKeyListener(new KeyAdapter() {
             @Override
@@ -71,31 +100,46 @@ class GUILoginScreen extends JPanel {
         });
     }
 
-
-    // Method to perform login action
+    /**
+     * Performs the login action based on the provided username.
+     *
+     * @param usernameField the text field containing the username
+     */
     private void performLogin(JTextField usernameField) {
         CardLayout cardLayout = (CardLayout) getParent().getLayout();
-        // this is the code to grab the user from database
+        // Code to retrieve the user from the database
         userDatabase userData = new userDatabase();
-        String usernameInputed = usernameField.getText();
-        currentUser = userData.findUser(usernameInputed);
+        String usernameInputted = usernameField.getText();
+        currentUser = userData.findUser(usernameInputted);
         if (currentUser == null) {
-            userData.createUser(usernameInputed);
+            userData.createUser(usernameInputted);
             userData.exportDatabase();
-            currentUser = userData.findUser(usernameInputed);
+            currentUser = userData.findUser(usernameInputted);
         }
         cardLayout.show(getParent(), "MAIN_MENU");
     }
-    // Static method to set the current user
+
+    /**
+     * Sets the current user.
+     *
+     * @param user the user to set as current user
+     */
     public static void setCurrentUser(user user) {
         currentUser = user;
     }
 
-    // Static method to get the current user
+    /**
+     * @return the current user
+     */
     public static user getCurrentUser() {
         return currentUser;
     }
 
+    /**
+     * Sets the CardLayout manager and parent panel for switching between panels.
+     * @param cardLayout the CardLayout manager
+     * @param cardPanel  the parent panel containing all card panels
+     */
     public void setCardLayout(CardLayout cardLayout, JPanel cardPanel) {
     }
 }

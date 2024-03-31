@@ -1,11 +1,32 @@
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * The GUISettingsScreen class represents a Swing GUI panel that displays
+ * the settings screen of the game. It allows users to toggle music on/off and flag mode on/off.
+ * </p>
+ * <p>
+ * Example usage:
+ * <pre>{@code
+ *   clicker.playSound("src/Resources/click.wav", false);
+ *   cardLayout.show(cardPanel, "SETTINGS");
+ * }</pre>
+ * </p>
+ *
+ * @author Sherry
+ * @version 1.0
+ */
 public class GUISettingsScreen extends JPanel {
     // Static variables for flag mode and music state
     private static boolean flagMode = true;
     private static boolean musicOn = true; // Assuming music is on by default
 
+    /**
+     * Constructs a new GUISettingsScreen panel.
+     * @param cardLayout the CardLayout manager used for switching between panels
+     * @param cardPanel  the parent panel containing all card panels
+     * @param music      the SoundPlayer object for playing background music
+     */
     public GUISettingsScreen(CardLayout cardLayout, JPanel cardPanel, SoundPlayer music) {
         SoundPlayer clicker = new SoundPlayer();
         setLayout(new BorderLayout());
@@ -71,11 +92,20 @@ public class GUISettingsScreen extends JPanel {
         add(backButtonPanel, BorderLayout.SOUTH);
     }
 
-    // Public static methods to access the status of flag mode and music state
+    /**
+     * Returns whether the flag mode is enabled.
+     *
+     * @return true if flag mode is enabled, false otherwise
+     */
     public static boolean isFlagModeEnabled() {
         return flagMode;
     }
 
+    /**
+     * Returns whether the music is currently on.
+     *
+     * @return true if music is on, false otherwise
+     */
     public static boolean isMusicOn() {
         return musicOn;
     }

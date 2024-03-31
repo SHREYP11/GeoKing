@@ -29,9 +29,13 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author Colin
  */
 public class GUIClassicModeScreen extends JPanel {
+    /** This is the layout of the cards*/
     private CardLayout cardLayout;
+    /**This cardPanel stores all the cards */
     private JPanel cardPanel;
+    /** This takes the users input*/
     private JTextField inputTextField;
+    /** This Stores the country*/
     private country Country;
 
     /**

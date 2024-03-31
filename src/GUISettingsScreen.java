@@ -13,7 +13,7 @@ import java.awt.*;
  * }</pre>
  * </p>
  *
- * @author Sherry
+ * @author Shrey
  * @version 1.0
  */
 public class GUISettingsScreen extends JPanel {

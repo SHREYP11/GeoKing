@@ -170,6 +170,7 @@ public class GUIFrenzyModeScreen extends JPanel {
         String countyName = Country.getName();
 
         if (Objects.equals(guess.toLowerCase(), countyName.toLowerCase())) {
+            timer.stop();
             // Correct guess
             if (currentUser.getFrenzyLevel() < 20) {
                 currentUser.incrementFrenzyLevel();

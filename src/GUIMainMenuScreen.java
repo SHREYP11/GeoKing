@@ -88,7 +88,7 @@ class GUIMainMenuScreen extends JPanel {
         buttonPanel.add(Box.createVerticalGlue());
 
         add(buttonPanel, BorderLayout.CENTER);
-
+        // frenzy
         frenzyModeButton.addActionListener(e -> {
             clicker.playSound("src/Resources/click.wav", false);
             Component[] components = cardPanel.getComponents();
@@ -103,7 +103,7 @@ class GUIMainMenuScreen extends JPanel {
             revalidate();
             repaint();
         });
-
+        // classic mode
         classicModeButton.addActionListener(e -> {
             clicker.playSound("src/Resources/click.wav", false);
             Component[] components = cardPanel.getComponents();
@@ -118,7 +118,7 @@ class GUIMainMenuScreen extends JPanel {
             revalidate();
             repaint();
         });
-
+        // leaderboard
         leaderboardButton.addActionListener(e -> {
             clicker.playSound("src/Resources/click.wav", false);
             Component[] components = cardPanel.getComponents();
@@ -133,12 +133,12 @@ class GUIMainMenuScreen extends JPanel {
             revalidate();
             repaint();
         });
-
+        // settings
         settingsButton.addActionListener(e -> {
             clicker.playSound("src/Resources/click.wav", false);
             cardLayout.show(cardPanel, "SETTINGS");
         });
-
+        // tutorial
         tutorialButton.addActionListener(e -> {
             clicker.playSound("src/Resources/click.wav", false);
             // Create JDialog

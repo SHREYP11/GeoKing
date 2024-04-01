@@ -178,8 +178,12 @@ public class GUIClassicModeScreen extends JPanel {
                     userDatabase users = new userDatabase();
                     users.findUser(currentUser.getName()).incrementClassicLevel();
                     users.exportDatabase();
-                } else {
+                }
+                else {
                     JOptionPane.showMessageDialog(this, "Congratulations! You have now mastered GEOKING!", "Game Over",  JOptionPane.INFORMATION_MESSAGE);
+                    userDatabase users = new userDatabase();
+                    users.findUser(currentUser.getName()).classicLevel = 1;
+                    users.exportDatabase();
                     CardLayout cardLayout1 = (CardLayout) getParent().getLayout();
                     cardLayout1.show(getParent(), "MAIN_MENU");
                     return;

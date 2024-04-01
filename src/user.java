@@ -9,9 +9,9 @@ public class user {
     /** The User name */
     private String name;
     /** The level number for classic gamemode */
-    private int classicLevel;
+    public int classicLevel;
     /** The level number for frenzy gamemode */
-    private int frenzyLevel;
+    public int frenzyLevel;
     /** Boolean to see if User has admin priviledges */
     private boolean admin;
 

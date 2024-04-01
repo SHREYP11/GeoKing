@@ -180,9 +180,7 @@ public class GUIFrenzyModeScreen extends JPanel {
             } else {
                 // The user has reached level 20
                 JOptionPane.showMessageDialog(this, "Congratulations! You have mastered GEOKING!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
-                userDatabase users = new userDatabase();
-                users.findUser(currentUser.getName()).frenzyLevel = 1;
-                users.exportDatabase();
+
                 // Return to the main menu
                 CardLayout cardLayout1 = (CardLayout) getParent().getLayout();
                 cardLayout1.show(getParent(), "MAIN_MENU");

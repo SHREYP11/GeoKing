@@ -3,44 +3,34 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Represents the classic mode screen of the GeoKing application, this class contains the entire GUI for the classic
- * game mode, it calls Level database to select a random country from the users current level.
- * As well, it handles checking the guess and incrementing the users level if the guess is correct. This is before sending
- * them to the next level
- *
- * Usage Example:
- * <pre>
- * {@code
- *  GUIClassicModeScreen GUIClassicModeScreen = new GUIClassicModeScreen(cardLayout,cardPanel);
- *  // Add the ClassicModeScreen to the cardPanel
- *  this.cardPanel.add(GUIClassicModeScreen, "ClassicModeScreen");
- *  // Switch to the ClassicModeScreen using CardLayout
- *  this.cardLayout.show(cardPanel, "ClassicModeScreen");
- *  revalidate();
- *   repaint();
- *  }
- * </pre>
- *
+ * Represents the classic mode screen of the GeoKing application. This class contains the entire GUI for the classic
+ * game mode. It calls Level database to select a random country from the user's current level.
+ * As well, it handles checking the guess and incrementing the user's level if the guess is correct.
+ * Before sending them to the next level.
  *
  * @version 1.0
  * @author Colin
  */
 public class GUIClassicModeScreen extends JPanel {
-    /** This is the layout of the cards*/
-    private CardLayout cardLayout;
-    /**This cardPanel stores all the cards */
-    private JPanel cardPanel;
-    /** This takes the users input*/
-    private JTextField inputTextField;
-    /** This Stores the country*/
+    /** This is the layout of the cards */
+    private final CardLayout cardLayout;
+    /** This cardPanel stores all the cards */
+    private final JPanel cardPanel;
+    /** This takes the user's input */
+    private final JTextField inputTextField;
+    /** This stores the country */
     private country Country;
+    /** The label displaying remaining lives */
+    private JLabel livesLabel;
+    /** The remaining lives */
+    private int lives;
 
     /**
      * Constructs a GUIClassicModeScreen with the specified CardLayout and JPanel.
      * This manages all the windows as well as buttons for the classic mode screen.
+     *
      * @param cardLayout The CardLayout to use for managing screens.
      * @param cardPanel  The JPanel to which this screen is added if the user gets the guess
      *                   correct.
@@ -50,10 +40,13 @@ public class GUIClassicModeScreen extends JPanel {
         SoundPlayer clicker = new SoundPlayer();
         this.cardLayout = cardLayout;
         this.cardPanel = cardPanel;
-        String countyName = "";
-        levelDatabase levels = new levelDatabase();
-        // this is the level selection code
+        String path = "";
+
+        // Level selection
         user currentUser = GUILoginScreen.getCurrentUser();
+        levelDatabase levels = new levelDatabase();
+
+        // Admin mode level selection
         if (currentUser.getAdmin()) {
             boolean validInput = false;
             while (!validInput) {
@@ -83,86 +76,63 @@ public class GUIClassicModeScreen extends JPanel {
                         } else {
                             // Use the entered integers for further processing
                             Country = levels.adminSelect(level, ranLevel);
-                            countyName = Country.getName();
                             validInput = true; // Set validInput to true to exit the loop
                         }
                     } catch (NumberFormatException e) {
                         // Handle invalid input format
                         JOptionPane.showMessageDialog(null, "Please enter valid integers for level and choice.");
                     }
-                }
-                else {
-                    Country = levels.adminSelect(1,1);
-                    countyName = Country.getName();
-                    break;
+                } else {
+                    // If the user cancels, select a default level
+                    Country = levels.adminSelect(1, 1);
+                    break; // Exit the loop
                 }
             }
-        }
-        else {
+        } else {
+            // User mode level selection
             int classicLevel = currentUser.getClassicLevel();
             Country = levels.selectLevel(classicLevel);
-            countyName = Country.getName();
         }
+
+        lives = 5; // Initialize lives
         setLayout(new BorderLayout());
-        setBackground(new Color(192, 192, 192)); // Set background color for ClassicModeScreen
+        setBackground(new Color(192, 192, 192));
 
+        // Top panel
         JPanel topPanel = new JPanel(new BorderLayout());
-        topPanel.setBackground(new Color(192, 192, 192)); // Set background color for topPanel
-
-        // Add Exit Button to top left
+        topPanel.setBackground(new Color(192, 192, 192));
         JButton exitButton = new JButton("Exit");
         exitButton.addActionListener(e -> {
             clicker.playSound("src/Resources/click.wav", false);
             CardLayout cardLayout1 = (CardLayout) getParent().getLayout();
             cardLayout1.show(getParent(), "MAIN_MENU");
-            revalidate();
-            repaint();
-        }); // Exit to main
+        });
         topPanel.add(exitButton, BorderLayout.WEST);
-
-        // Lives Counter in the top middle
-        AtomicInteger lives = new AtomicInteger(5);
-        JLabel livesLabel = new JLabel("Lives: " + lives);
+        livesLabel = new JLabel("Lives: " + lives);
         livesLabel.setFont(new Font("Arial", Font.BOLD, 24));
         livesLabel.setForeground(Color.BLACK);
         livesLabel.setHorizontalAlignment(SwingConstants.CENTER);
         topPanel.add(livesLabel, BorderLayout.CENTER);
-
-        JButton hintButton = new JButton("Hint");
-        hintButton.setPreferredSize(new Dimension(80, 30));
-        hintButton.addActionListener(event -> {
-            clicker.playSound("src/Resources/click.wav", false);
-            JOptionPane.showMessageDialog(this, "This country is in " + Country.getContinent() + ".");
-        });
-        JPanel hintPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        hintPanel.setOpaque(false);
-        hintPanel.add(hintButton);
-        topPanel.add(hintPanel, BorderLayout.EAST);
-
         add(topPanel, BorderLayout.NORTH);
 
+        // Center panel
         JPanel centerPanel = new JPanel(new BorderLayout());
-        centerPanel.setBackground(new Color(192, 192, 192)); // Set background color for centerPanel
-
-        String path = "";
+        centerPanel.setBackground(new Color(192, 192, 192));
         if (mode) {
-            path = "src/Resources/Countries/" + countyName.toLowerCase() + "-silhouette.png";
+            path = "src/Resources/Countries/" + Country.getName().toLowerCase() + "-silhouette.png";
         } else {
-            path = "src/Resources/Flags/" + countyName + "Flag.png";
+            path = "src/Resources/Flags/" + Country.getName() + "Flag.png";
         }
         ImageIcon imageIcon = new ImageIcon(path);
         JLabel imageLabel = new JLabel(imageIcon);
         imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
         centerPanel.add(imageLabel, BorderLayout.CENTER);
-
         inputTextField = new JTextField();
         inputTextField.setHorizontalAlignment(JTextField.CENTER);
-        inputTextField.setPreferredSize(new Dimension(inputTextField.getPreferredSize().width, 40)); // Set text field height
-        // This is the input for the enter key to make it do the same as the enter button
+        inputTextField.setPreferredSize(new Dimension(inputTextField.getPreferredSize().width, 40));
         inputTextField.addKeyListener(new KeyListener() {
             @Override
-            public void keyTyped(KeyEvent e) {
-            }
+            public void keyTyped(KeyEvent e) {}
 
             @Override
             public void keyPressed(KeyEvent e) {
@@ -172,14 +142,14 @@ public class GUIClassicModeScreen extends JPanel {
             }
 
             @Override
-            public void keyReleased(KeyEvent e) {
-            }
+            public void keyReleased(KeyEvent e) {}
         });
         centerPanel.add(inputTextField, BorderLayout.SOUTH);
-
         add(centerPanel, BorderLayout.CENTER);
+
+        // Enter Guess button
         JButton enterGuessButton = new JButton("Enter Guess");
-        enterGuessButton.addActionListener(event -> {
+        enterGuessButton.addActionListener(e -> {
             clicker.playSound("src/Resources/click.wav", false);
             processGuess();
         });
@@ -189,72 +159,68 @@ public class GUIClassicModeScreen extends JPanel {
     /**
      * Processes the user's guess, if the guess is incorrect and the user has lives left it does nothing.
      * If the user's guess is correct it gives the option for the user to continue to the next level or return to main menu
-     * IF the user is out of live it returns the user to the main menu.
+     * If the user is out of live it returns the user to the main menu.
      */
     private void processGuess() {
-        String guess = inputTextField.getText();
+        String guess = inputTextField.getText().toLowerCase();
         user currentUser = GUILoginScreen.getCurrentUser();
-        String countyName = Country.getName();
+        String countyName = Country.getName().toLowerCase();
 
-        if (Objects.equals(guess.toLowerCase(), countyName.toLowerCase())) {
+        if (guess.equals(countyName)) {
             // Correct guess
-            if (currentUser.getClassicLevel() < 20) {
-                currentUser.incrementClassicLevel();
-            } else {
-                // The user has reached level 20
-                JOptionPane.showMessageDialog(this,
-                        "Congratulations! You have now mastered GEOKING!",
-                        "Game Over",
-                        JOptionPane.INFORMATION_MESSAGE);
-
-                // Return to the main menu
+            if (currentUser.getAdmin()) {
+                JOptionPane.showMessageDialog(this, "Congratulations " + guess + " was the correct country.", "Game Over",  JOptionPane.INFORMATION_MESSAGE);
                 CardLayout cardLayout1 = (CardLayout) getParent().getLayout();
                 cardLayout1.show(getParent(), "MAIN_MENU");
-                revalidate();
-                repaint();
-
-                return; // Exit the method to prevent further execution
-            }
-
-            // Rest of your code for proceeding to the next level
-            int option = JOptionPane.showOptionDialog(this,
-                    "Congratulations " + guess + " was the correct country.",
-                    "Correct Guess",
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.INFORMATION_MESSAGE,
-                    null,
-                    new String[]{"Next Level", "Main Menu"},
-                    "Main Menu");
-
-            if (option == JOptionPane.YES_OPTION) {
-                // Proceed to the next level
-                Component[] components = cardPanel.getComponents();
-                for (Component component : components) {
-                    if (component instanceof GUIClassicModeScreen) {
-                        cardPanel.remove(component);
-                    }
+            } else {
+                if (currentUser.getClassicLevel() < 20) {
+                    currentUser.incrementClassicLevel();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Congratulations! You have now mastered GEOKING!", "Game Over",  JOptionPane.INFORMATION_MESSAGE);
+                    CardLayout cardLayout1 = (CardLayout) getParent().getLayout();
+                    cardLayout1.show(getParent(), "MAIN_MENU");
+                    return;
                 }
-                GUIClassicModeScreen GUIClassicModeScreen = new GUIClassicModeScreen(cardLayout, cardPanel);
 
-                // Add the ClassicModeScreen to the cardPanel
-                cardPanel.add(GUIClassicModeScreen, "ClassicModeScreen");
+                int option = JOptionPane.showOptionDialog(this,
+                        "Congratulations " + guess + " was the correct country.",
+                        "Correct Guess",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.INFORMATION_MESSAGE,
+                        null,
+                        new String[]{"Next Level", "Main Menu"},
+                        "Main Menu");
 
-                // Switch to the ClassicModeScreen using CardLayout
-                cardLayout.show(cardPanel, "ClassicModeScreen");
-
-                revalidate();
-                repaint();
-            } else {
-                // Return to the main menu
-                CardLayout cardLayout1 = (CardLayout) getParent().getLayout();
-                cardLayout1.show(getParent(), "MAIN_MENU");
-                revalidate();
-                repaint();
+                if (option == JOptionPane.YES_OPTION) {
+                    Component[] components = cardPanel.getComponents();
+                    for (Component component : components) {
+                        if (component instanceof GUIClassicModeScreen) {
+                            cardPanel.remove(component);
+                        }
+                    }
+                    GUIClassicModeScreen GUIClassicModeScreen = new GUIClassicModeScreen(cardLayout, cardPanel);
+                    cardPanel.add(GUIClassicModeScreen, "ClassicModeScreen");
+                    cardLayout.show(cardPanel, "ClassicModeScreen");
+                } else {
+                    CardLayout cardLayout1 = (CardLayout) getParent().getLayout();
+                    cardLayout1.show(getParent(), "MAIN_MENU");
+                }
             }
         } else {
             // Incorrect guess
             JOptionPane.showMessageDialog(this, "You guessed: " + guess + ", This was not the correct country.");
+            lives--;
+
+            // Update lives label
+            livesLabel.setText("Lives: " + lives);
+
             inputTextField.setText("");
+
+            if (lives <= 0) {
+                JOptionPane.showMessageDialog(this, "Game over! You have run out of lives.", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+                CardLayout cardLayout1 = (CardLayout) getParent().getLayout();
+                cardLayout1.show(getParent(), "MAIN_MENU");
+            }
         }
     }
 }

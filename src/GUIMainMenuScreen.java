@@ -135,36 +135,36 @@ class GUIMainMenuScreen extends JPanel {
 
         tutorialButton.addActionListener(e -> {
             clicker.playSound("src/Resources/click.wav", false);
-            SwingUtilities.invokeLater(() -> {
-                // Create JFrame
-                JFrame frame = new JFrame("Image Display");
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.setSize(900, 500);
-                frame.setLocationRelativeTo(null); // Center the window
-                // Create JPanel
-                JPanel panel = new JPanel() {
-                    @Override
-                    protected void paintComponent(Graphics g) {
-                        super.paintComponent(g);
-                        ImageIcon imageIcon = new ImageIcon("src/Resources/Tutorial.png");
-                        Image image = imageIcon.getImage();
-                        g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
-                    }
-                };
-                // Create OK button
-                JButton okButton = new JButton("OK");
-                okButton.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        frame.dispose(); // Close the window
-                    }
-                });
-                // Add components to frame
-                frame.add(panel, BorderLayout.CENTER);
-                frame.add(okButton, BorderLayout.SOUTH);
-                frame.setVisible(true);
+            // Create JDialog
+            JDialog dialog = new JDialog();
+            dialog.setTitle("Tutorial");
+            dialog.setSize(900, 500);
+            dialog.setLocationRelativeTo(null); // Center the window
+            // Create JPanel
+            JPanel panel = new JPanel() {
+                @Override
+                protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    ImageIcon imageIcon = new ImageIcon("src/Resources/Tutorial.png");
+                    Image image = imageIcon.getImage();
+                    g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+                }
+            };
+            // Create OK button
+            JButton okButton = new JButton("OK");
+            okButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    dialog.dispose(); // Close the dialog
+                }
             });
+            // Add components to dialog
+            dialog.add(panel, BorderLayout.CENTER);
+            dialog.add(okButton, BorderLayout.SOUTH);
+            dialog.setModal(true); // Make the dialog modal
+            dialog.setVisible(true);
         });
+
         // Exit Button
         exitButton.addActionListener(e -> System.exit(0));
 

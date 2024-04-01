@@ -55,33 +55,50 @@ public class GUIClassicModeScreen extends JPanel {
         // this is the level selection code
         user currentUser = GUILoginScreen.getCurrentUser();
         if (currentUser.getAdmin()) {
-            // Create a panel to hold input components
-            JPanel adminInputPanel = new JPanel(new GridLayout(2, 2));
+            boolean validInput = false;
+            while (!validInput) {
+                // Create a panel to hold input components
+                JPanel adminInputPanel = new JPanel(new GridLayout(2, 2));
 
-            // Add labels and text fields for integer input
-            JTextField levelField = new JTextField(5);
-            JTextField levelChoice = new JTextField(5);
-            adminInputPanel.add(new JLabel("Enter Level: "));
-            adminInputPanel.add(levelField);
-            adminInputPanel.add(new JLabel("Enter Level Choice: "));
-            adminInputPanel.add(levelChoice);
+                // Add labels and text fields for integer input
+                JTextField levelField = new JTextField(5);
+                JTextField levelChoice = new JTextField(5);
+                adminInputPanel.add(new JLabel("Enter Level (1-20): "));
+                adminInputPanel.add(levelField);
+                adminInputPanel.add(new JLabel("Enter Level Choice (1-4): "));
+                adminInputPanel.add(levelChoice);
 
-            // Show the dialog
-            int option = JOptionPane.showConfirmDialog(null, adminInputPanel, "Level 1 - 20, Choice 1 - 4.", JOptionPane.OK_CANCEL_OPTION);
-            if (option == JOptionPane.OK_OPTION) {
-                // Parse and retrieve the entered integers
-                try {
-                    int level = Integer.parseInt(levelField.getText());
-                    int ranLevel = Integer.parseInt(levelChoice.getText());
-                    // Use the entered integers for further processing
-                    Country = levels.adminSelect(level, ranLevel);
+                // Show the dialog
+                int option = JOptionPane.showOptionDialog(null, adminInputPanel, "Level 1 - 20, Choice 1 - 4.", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, new Object[]{"OK"}, null);
+                if (option == JOptionPane.OK_OPTION) {
+                    // Parse and retrieve the entered integers
+                    try {
+                        int level = Integer.parseInt(levelField.getText());
+                        int ranLevel = Integer.parseInt(levelChoice.getText());
+
+                        // Check if any of the entered integers are outside the specified range
+                        if (level < 1 || level > 20 || ranLevel < 1 || ranLevel > 4) {
+                            // Display error message for invalid input range
+                            JOptionPane.showMessageDialog(null, "Please enter valid integers for level (1-20) and choice (1-4).");
+                        } else {
+                            // Use the entered integers for further processing
+                            Country = levels.adminSelect(level, ranLevel);
+                            countyName = Country.getName();
+                            validInput = true; // Set validInput to true to exit the loop
+                        }
+                    } catch (NumberFormatException e) {
+                        // Handle invalid input format
+                        JOptionPane.showMessageDialog(null, "Please enter valid integers for level and choice.");
+                    }
+                }
+                else {
+                    Country = levels.adminSelect(1,1);
                     countyName = Country.getName();
-                } catch (NumberFormatException e) {
-                    // Handle invalid input
-                    JOptionPane.showMessageDialog(null, "Please enter valid integers for level and classic level.");
+                    break;
                 }
             }
-        } else {
+        }
+        else {
             int classicLevel = currentUser.getClassicLevel();
             Country = levels.selectLevel(classicLevel);
             countyName = Country.getName();

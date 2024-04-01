@@ -174,6 +174,9 @@ public class GUIFrenzyModeScreen extends JPanel {
             // Correct guess
             if (currentUser.getFrenzyLevel() < 20) {
                 currentUser.incrementFrenzyLevel();
+                userDatabase users = new userDatabase();
+                users.findUser(currentUser.getName()).incrementFrenzyLevel();
+                users.exportDatabase();
             } else {
                 // The user has reached level 20
                 JOptionPane.showMessageDialog(this,

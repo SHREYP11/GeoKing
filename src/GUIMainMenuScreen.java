@@ -121,6 +121,12 @@ class GUIMainMenuScreen extends JPanel {
 
         leaderboardButton.addActionListener(e -> {
             clicker.playSound("src/Resources/click.wav", false);
+            Component[] components = cardPanel.getComponents();
+            for (Component component : components) {
+                if (component instanceof GUILeaderboardScreen) {
+                    cardPanel.remove(component);
+                }
+            }
             GUILeaderboardScreen GUILeaderboardScreen = new GUILeaderboardScreen();
             cardPanel.add(GUILeaderboardScreen, "LeaderboardScreen");
             cardLayout.show(cardPanel, "LeaderboardScreen");

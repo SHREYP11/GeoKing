@@ -179,16 +179,27 @@ public class GUIClassicModeScreen extends JPanel {
         user currentUser = GUILoginScreen.getCurrentUser();
         String countyName = Country.getName();
 
-        AtomicInteger lives = new AtomicInteger(5);
-
         if (Objects.equals(guess.toLowerCase(), countyName.toLowerCase())) {
             // Correct guess
             if (currentUser.getClassicLevel() < 20) {
                 currentUser.incrementClassicLevel();
+            } else {
+                // The user has reached level 20
+                JOptionPane.showMessageDialog(this,
+                        "Congratulations! You have now mastered GEOKING!",
+                        "Game Over",
+                        JOptionPane.INFORMATION_MESSAGE);
+
+                // Return to the main menu
+                CardLayout cardLayout1 = (CardLayout) getParent().getLayout();
+                cardLayout1.show(getParent(), "MAIN_MENU");
+                revalidate();
+                repaint();
+
+                return; // Exit the method to prevent further execution
             }
-            userDatabase updateData = new userDatabase();
-            updateData.findUser(currentUser.getName()).incrementClassicLevel();
-            updateData.exportDatabase();
+
+            // Rest of your code for proceeding to the next level
             int option = JOptionPane.showOptionDialog(this,
                     "Congratulations " + guess + " was the correct country.",
                     "Correct Guess",
@@ -225,22 +236,8 @@ public class GUIClassicModeScreen extends JPanel {
             }
         } else {
             // Incorrect guess
-            lives.getAndDecrement();
             JOptionPane.showMessageDialog(this, "You guessed: " + guess + ", This was not the correct country.");
             inputTextField.setText("");
-
-            // Update lives label to reflect the new value
-            JLabel livesLabel = (JLabel) ((JPanel) getComponent(0)).getComponent(1); // Assuming lives label is at index 1 of the top panel
-            livesLabel.setText("Lives: " + lives);
-
-            // Check if lives are depleted
-            if (lives.get() <= 0) {
-                JOptionPane.showMessageDialog(this, "Game Over! You have run out of lives.");
-                CardLayout cardLayout1 = (CardLayout) getParent().getLayout();
-                cardLayout1.show(getParent(), "MAIN_MENU");
-                revalidate();
-                repaint();
-            }
         }
     }
 }

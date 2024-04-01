@@ -174,10 +174,23 @@ public class GUIFrenzyModeScreen extends JPanel {
             // Correct guess
             if (currentUser.getFrenzyLevel() < 20) {
                 currentUser.incrementFrenzyLevel();
+            } else {
+                // The user has reached level 20
+                JOptionPane.showMessageDialog(this,
+                        "Congratulations! You have mastered GEOKING!",
+                        "Game Over",
+                        JOptionPane.INFORMATION_MESSAGE);
+
+                // Return to the main menu
+                CardLayout cardLayout1 = (CardLayout) getParent().getLayout();
+                cardLayout1.show(getParent(), "MAIN_MENU");
+                revalidate();
+                repaint();
+
+                return; // Exit the method to prevent further execution
             }
-            userDatabase updateData = new userDatabase();
-            updateData.findUser(currentUser.getName()).incrementFrenzyLevel();
-            updateData.exportDatabase();
+
+            // Rest of your code for proceeding to the next level
             int option = JOptionPane.showOptionDialog(this,
                     "Congratulations " + guess + " was the correct country.",
                     "Correct Guess",
@@ -213,7 +226,6 @@ public class GUIFrenzyModeScreen extends JPanel {
             inputTextField.setText("");
         }
     }
-
     /**
      * When the timer hits 0 a message is displayed and the user is sent back to the main menu
      */

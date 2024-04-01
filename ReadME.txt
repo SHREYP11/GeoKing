@@ -4,7 +4,7 @@ Description: Our game is called GEO king and is an interactive geography-based g
 
 Compiling: Should compile with no third party libraries, intelliJ can generate a META-INF, and it is important to select GeoKingApplication as the main if asked.
 
-Running: Make sure to install Java 17 or newer, I have included the installation in the folder with the compiled game, then just run normally.
+Running: Make sure to install Java 17 or newer, I have included the installation in the folder with the compiled game, then run normally.
 
 User Guide: Enter username (none case-sensitive), if you don't have an account when you enter your username, one will be created for you. Click on tutorial this will show you how to play the game. The flag mode and music on/off is in settings. Enjoy our game,
 Classic mode is live based, as where frenzy is time-based.

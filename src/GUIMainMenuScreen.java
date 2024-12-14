@@ -17,7 +17,7 @@ import javax.swing.*;
  *  cardLayout.show(cardPanel, "LOGIN");
  * frame.add(cardPanel);
  * frame.setVisible(true);
- * @author Sherry
+ * @author Shy
  * @version 1.0
  */
 class GUIMainMenuScreen extends JPanel {

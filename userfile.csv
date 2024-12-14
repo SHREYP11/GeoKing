@@ -1,7 +1,7 @@
 Name,Classic Level,Frenzy Level,Admin
 Colin,1,1,true
 Vlad,1,1,true
-Admin,1,1,true
+Admin,1,8,true
 Elena,7,14,false
 Archer,3,9,false
 Serenity,19,6,false
@@ -22,3 +22,9 @@ Daxton,1,10,false
 Ivy,9,15,false
 Caspian,16,3,false
 Zara,14,17,false
+Shrey,20,17,false
+Shreu,1,20,false
+......,20,1,false
+.,1,1,false
+Damn,1,1,false
+a,1,17,false
